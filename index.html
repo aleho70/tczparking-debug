@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-type" name="viewport"
+	content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width"
+	charset="UTF-8">
+<title>TCZ Parking</title>
+<link rel="stylesheet" href="jqm/jquery.mobile-1.2.0.min.css" /> 
+<!--
+<link rel="stylesheet"	href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+ -->
+<link rel="stylesheet" href="index.css" />
+<!-- <script type="text/javascript" charset="utf-8" src="js/jquery.touchToClick.js"></script> -->
+<!-- 
+<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script	src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+ -->
+<script type="text/javascript" charset="utf-8" src="jqm/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/config.js"></script> 
+<script type="text/javascript" charset="utf-8" src="jqm/jquery.mobile-1.2.0.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="jqm/jquery.mobile.routerlite.js"></script>
+<!-- <script type="text/javascript" charset="utf-8" src="js/cordova-2.1.0.js"></script> -->
+</head>
+
+<body onload="init()">
+
+
+	<div id="universalHeader" style="display: none;">
+		<div data-role="header" id="headerMain" data-position="fixed" data-tap-toggle="false" data-theme="b" >
+			<!-- <img border="0" src="images/O2Parking448.png" width="36px" alt="Logo, Facebook" style="float:left;display:inline"/> -->
+			<h1>TCZ Parking</h1>
+			<!-- <a href="#pageSetup" data-icon="grid" class="ui-btn-right" data-iconpos="notext">Options</a> -->
+		</div>
+	</div>
+	
+	<div id="universalFooter" style="display: none;">
+		<div data-role="footer"  id="footerMain" data-position="fixed" data-tap-toggle="false" data-theme="b">
+			<div data-role="navbar" data-iconpos="top">
+				<ul>
+					<li><a href="#pageMain" data-icon="refresh" class="btn-refresh Xui-state-persist"><span class="refresh-text">Aktualizovat</span></a></li>
+					<li><a href="#pageSelect" data-icon="search" class="Xui-state-persist">Vybrat</a></li>
+					<li><a href="#pageSetup" data-icon="gear" class="Xui-state-persist">Nastavit</a></li>
+					<!--<li><a id="btnLog1" href="#pageLog" data-icon="docs" class=Xui-state-persist">Log</a></li>
+					 <li><a href="#pageSelect" id="btnSelect2" data-icon="search">Select</a></li> -->
+				</ul>
+			</div> <!-- /navbar -->
+		</div> <!-- /footer -->
+	</div>
+
+	<div data-role="page" id="pageMain" class="wrapper">
+		<div data-role="content" class="fullHeight">
+			<div class="content-secondary ui-bar-b">
+				<ul id="listParking2" data-role="listview" data-inset="false"
+					class="ui-li-twoBubble" data-theme="c" data-dividertheme="b">
+					<li data-role="list-divider">Lokalita</li>
+				</ul>
+				<ul id="menuParking2" data-role="listview" data-inset="false"
+					class="ui-li-twoBubble" data-theme="b" data-dividertheme="b">
+					<li data-icon="refresh"><a href="#pageMain"
+						class="btn-refresh"><span class="refresh-text">Aktualizovat</span></a></li>
+					<li data-icon="gear"><a href="#pageSetup">Nastavit</a></li>
+				</ul>
+			</div>
+
+			<div class="content-primary">
+				<div class="parking">
+					<ul id="loc" data-role="listview" data-inset="true" data-theme="b"
+						data-dividertheme="c">
+						<li><a href="#pageSelect"><span id="parkingName">----</span></a>
+							<span class="ui-li-count" id="statusTimeout">neznámý stav</span>
+						</li>
+						<li data-role="list-divider">
+							<div class="parking-signs ui-grid-a" style="height: 100%">
+								<div class="sign ui-block-a">
+									<ul data-role="listview" data-inset="true">
+										<li data-role="list-divider">Služební <span
+											class="ui-li-count" id="statusCorporate">--</span>
+										</li>
+										<li>
+											<div>
+												<img src="images/signs/off-traffic-light-128x300.png"
+													id="imgCorporate">
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="sign ui-block-b">
+									<ul data-role="listview" data-inset="true">
+										<li data-role="list-divider">Soukromé <span
+											class="ui-li-count" id="statusPrivate">--</span>
+										</li>
+										<li>
+											<div>
+												<img src="images/signs/off-traffic-light-128x300.png"
+													id="imgPrivate">
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+						<li data-role="list-divider">
+ 							<span class="ui-li-count" id="statusLastUpdate">--</span>
+								Čas aktualizace:
+						</li>
+					</ul>
+
+				</div>
+
+			</div>
+		</div>
+		
+	</div>
+
+	<div data-role="page" id="pageSelect" class="wrapper" data-theme="c" data-add-back-btn="true">
+		<div data-role="content">
+<!-- 			<div class="content-secondary ui-bar-b">
+				<ul id="menuParking2" data-role="listview" data-inset="false"
+					class="ui-li-twoBubble" data-theme="b" data-dividertheme="b">
+					<li data-icon="refresh"><a href="#pageMain"
+						class="btn-refresh">Aktualizovat</a></li>
+					<li data-icon="gear"><a href="#pageSetup">Nastavit</a></li>
+				</ul>
+			</div> 
+
+			<div class="content-primary"> -->
+				<ul id="listParking1" data-role="listview" data-inset="false"
+					class="ui-li-twoBubble" data-theme="c" data-dividertheme="b">
+					<li data-role="list-divider">Lokalita</li>
+				</ul>
+<!-- 			</div> -->
+		</div>	<!-- /content -->
+	</div>	<!-- /page -->
+
+	<div data-role="page" id="pageSetup" data-theme="c" data-add-back-btn="true">
+		<div data-role="header" data-theme="b">
+			<h1>TCZ Parking : Setup</h1>
+		</div>
+		<div data-role="content">
+<!-- 			<div class="content-secondary ui-bar-b">
+ 
+			</div>
+			<div class="content-primary"> -->
+
+				<div data-role="fieldcontain">
+					<input type="checkbox" name="checkAutoRefresh" id="checkAutoRefresh" /> 
+					<label for="checkAutoRefresh">Aktualizovat automaticky</label>
+				</div>
+				<div data-role="fieldcontain">
+					<label for="selectTimeout">Po dobu:</label> 
+					<select name="selectTimeout" id="selectTimeout" data-mini="false">
+						<option value="2">2 minut</option>
+						<option value="3">3 minut</option>
+						<option value="5">5 minut</option>
+						<option value="10">10 minut</option>
+						<option value="15">15 minut</option>
+						<option value="20">20 minut</option>
+					</select>
+				</div>
+				<div data-role="fieldcontain">
+					<label for="selectInterval">Každých:</label> 
+					<select name="selectInterval" id="selectInterval" data-mini="false">
+						<option value="15">15 vteřin</option>
+						<option value="30">30 vteřin</option>
+						<option value="60">60 vteřin</option>
+						<option value="300">5 minut</option>
+					</select>
+				</div>
+<!-- 			</div> -->
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false" id="footerInfo" data-theme="b"><!--  data-tap-toggle="false"> -->
+			<div data-role="navbar" data-iconpos="top">
+				<ul>
+					<li><a id="btnMain"  class="btn-ok" href="#pageMain" data-icon="check">OK</a></li>
+				</ul>
+			</div> <!-- /navbar -->
+		</div> <!-- /footer -->
+	</div>
+
+	<section data-role="page" id="pageInfo" class="splash-page">
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="b">
+			<h1>TCZ Parking : About</h1>
+		</div>
+		<div data-role="content">
+			<a href="#pageMain" class="btn-ok"><img src="images/O2Parking448.png" width="100px" alt="TCZ Parking" style="float:right;display:inline"></a>
+			<h2>TCZ Parking</h2>
+			<p>Aplikace pro zobrazení stavu obsazenosti parkovacích míst v budovách Telefonica Praha.</p>
+			<i>Copyright © 2012 <a href="mailto:ales.holubec@telefonica.com">Aleš Holubec</a></i>
+			<div data-role="collapsible" data-collapsed="false" data-mini="false" data-iconpos="right" data-theme="c" data-content-theme="d">
+   				<h3>Verze 1.0.0</h3>
+   				20.12.2012
+ 				<ul>
+					<li>První verze pro veřejné testování</li>
+				</ul>
+			</div>
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false" id="footerInfo" data-theme="b"><!--  data-tap-toggle="false"> -->
+			<div data-role="navbar" data-iconpos="top">
+				<ul>
+					<li><a id="btnMain"  class="btn-ok" href="#pageMain" data-icon="check">OK</a></li>
+				</ul>
+			</div> <!-- /navbar -->
+		</div> <!-- /footer -->
+	</section>
+
+	<div data-role="page" id="pageLog" data-theme="c" data-add-back-btn="true">
+		<div data-role="header" data-theme="b">
+			<img border="0" src="images/O2Parking448.png" width="36px" alt="Logo, Facebook" style="float:left;display:inline"/>
+			<h1>TCZ Parking :LOG</h1>
+		</div>
+		<div data-role="content">
+		<textarea id="textLog"></textarea>
+		</div>
+	</div>
+	
+</body>
+<script src="phonegap.js"></script>
+<script src="GAPlugin.js"></script>
+<script src="screendim.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/date.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.touchToClick.js" ></script> 
+<script type="text/javascript" charset="utf-8" src="js/device.js"></script> 
+<script type="text/javascript" charset="utf-8" src="js/layout.js"></script> 
+<script type="text/javascript" charset="utf-8" src="index.js"></script>
+<!-- 
+<script	src="https://raw.github.com/1Marc/jquery-mobile-routerlite/master/jquery.mobile.routerlite.js"></script>
+ -->
+</html>

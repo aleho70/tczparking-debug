@@ -1,3 +1,5 @@
+var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
+
 function onBackbutton() {
 	Debug.info('*** BACKBUTTON');
 ////    // the intro div is considered home, so exit if use
@@ -49,8 +51,8 @@ var GAPlugin = function(){
 
 var onDeviceReady = function() {
 	Debug.info('*** DEVICEREADY');
-	GAPlugin.init('UA-37001546-1');
-  Debug.info('*** navigator.splashscreen.hide');
+	GAPlugin.init(GA_PLUGIN_ID);
+  // Debug.info('*** navigator.splashscreen.hide');
   navigator.splashscreen.hide();
     
     // api-device

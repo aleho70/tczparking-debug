@@ -20,9 +20,12 @@
 <script type="text/javascript" charset="utf-8" src="jqm/jquery.mobile-1.2.0.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="jqm/jquery.mobile.routerlite.js"></script>
 <!-- <script type="text/javascript" charset="utf-8" src="js/cordova-2.1.0.js"></script> -->
+<script src="phonegap.js"></script>
+<script src="GAPlugin.js"></script>
+<script src="screendim.js"></script>
 </head>
 
-<body onload="init()">
+<body onload="init();">
 
 
 	<div id="universalHeader" style="display: none;">
@@ -112,6 +115,9 @@
 	</div>
 
 	<div data-role="page" id="pageSelect" class="wrapper" data-theme="c" data-add-back-btn="true">
+		<div data-role="header" data-theme="b">
+			<h1>TCZ Parking : Select</h1>
+		</div>
 		<div data-role="content">
 <!-- 			<div class="content-secondary ui-bar-b">
 				<ul id="menuParking2" data-role="listview" data-inset="false"
@@ -209,8 +215,7 @@
 
 	<div data-role="page" id="pageLog" data-theme="c" data-add-back-btn="true">
 		<div data-role="header" data-theme="b">
-			<img border="0" src="images/O2Parking448.png" width="36px" alt="Logo, Facebook" style="float:left;display:inline"/>
-			<h1>TCZ Parking :LOG</h1>
+			<h1>TCZ Parking : Log</h1>
 		</div>
 		<div data-role="content">
 		<textarea id="textLog"></textarea>
@@ -226,9 +231,6 @@
 	</div>
 	
 </body>
-<script src="phonegap.js"></script>
-<script src="GAPlugin.js"></script>
-<script src="screendim.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/date.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/jquery.touchToClick.js" ></script> 
 <script type="text/javascript" charset="utf-8" src="js/device.js"></script> 

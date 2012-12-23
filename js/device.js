@@ -26,7 +26,7 @@ var GAPlugin = function(){
 		init: function(id) {
 			gaPlugin = window.plugins.gaPlugin;
 			Debug.info('GAPlugin.init('+JSON.stringify(arguments)+')');
-		    if(gaPlugin) gaPlugin.init(onSuccess, onError, id, 10);
+		  if(gaPlugin) gaPlugin.init(onSuccess, onError, id, 10);
 		},
 		trackEvent: function(category, eventAction, eventLabel, eventValue) {
 			Debug.info('GAPlugin.trackEvent('+JSON.stringify(arguments)+')');
@@ -48,9 +48,10 @@ var GAPlugin = function(){
 }();
 
 var onDeviceReady = function() {
-	Debug.info('*** DEVICEDEADY');
+	Debug.info('*** DEVICEREADY');
+	GAPlugin.init('UA-37001546-1');
+  Debug.info('*** navigator.splashscreen.hide');
   navigator.splashscreen.hide();
-	GAPlugin.init('UA-37001546-2');
     
     // api-device
 //    // ***IMPORTANT: access device object only AFTER "deviceready" event    
@@ -105,5 +106,6 @@ var onDeviceReady = function() {
 };
 
 function init() {
+	Debug.info('*** INIT');
     document.addEventListener("deviceready", onDeviceReady, true);
 }

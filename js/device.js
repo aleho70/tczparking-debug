@@ -49,6 +49,7 @@ var GAPlugin = function(){
 
 var onDeviceReady = function() {
 	Debug.info('*** DEVICEDEADY');
+  navigator.splashscreen.hide();
 	GAPlugin.init('UA-37001546-2');
     
     // api-device

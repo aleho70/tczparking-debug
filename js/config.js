@@ -11,7 +11,8 @@ var Debug = function(){
 		log : function(message) { if(DEBUG && console && DEBUG_LEVEL<=0) console.log(message); /*logIt(message);*/ },
 		info : function(message) { if(DEBUG && console && DEBUG_LEVEL<=1) console.log(message); logIt(message); },
 		warn : function(message) { if(DEBUG && console && DEBUG_LEVEL<=2) console.warn(message); logIt(message); },
-		error : function(message) { if(DEBUG && console && DEBUG_LEVEL<=3) console.error(message); logIt(message); }
+		error : function(message) { if(DEBUG && console && DEBUG_LEVEL<=3) console.error(message); logIt(message); },
+    clearLogHistory : function() { logHistory = ''; $('#textLog').val(logHistory); }
 	};
 }();
 

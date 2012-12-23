@@ -785,3 +785,15 @@ $.mobile.routerlite.pagechange('#pageSelect', function(page){
 			})
 	);
 });
+
+//
+// pageLog
+//
+$.mobile.routerlite.pageinit('#pageLog', function(page){
+	Debug.info('*** PAGEINIT #pageLog');
+	$('.btn-ok').click(function() {
+	});
+	$('.btn-clear').click(function() {
+    Debug.clearLogHistory();
+	});
+});

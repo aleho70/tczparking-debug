@@ -40,8 +40,7 @@
 					<li><a href="#pageMain" data-icon="refresh" class="btn-refresh Xui-state-persist"><span class="refresh-text">Aktualizovat</span></a></li>
 					<li><a href="#pageSelect" data-icon="search" class="Xui-state-persist">Vybrat</a></li>
 					<li><a href="#pageSetup" data-icon="gear" class="Xui-state-persist">Nastavit</a></li>
-					<!--<li><a id="btnLog1" href="#pageLog" data-icon="docs" class=Xui-state-persist">Log</a></li>
-					 <li><a href="#pageSelect" id="btnSelect2" data-icon="search">Select</a></li> -->
+					<li><a href="#pageLog" data-icon="docs" class="Xui-state-persist">Log</a></li>
 				</ul>
 			</div> <!-- /navbar -->
 		</div> <!-- /footer -->
@@ -187,6 +186,11 @@
 			<p>Aplikace pro zobrazení stavu obsazenosti parkovacích míst v budovách Telefonica Praha.</p>
 			<i>Copyright © 2012 <a href="mailto:ales.holubec@telefonica.com">Aleš Holubec</a></i>
 			<div data-role="collapsible" data-collapsed="false" data-mini="false" data-iconpos="right" data-theme="c" data-content-theme="d">
+   				<h3>Verze 1.0.1</h3>
+   				23.12.2012
+ 				<ul>
+					<li>Opraven config.xml pro PhoneGap Build</li>
+				</ul>
    				<h3>Verze 1.0.0</h3>
    				20.12.2012
  				<ul>
@@ -211,6 +215,14 @@
 		<div data-role="content">
 		<textarea id="textLog"></textarea>
 		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false" id="footerInfo" data-theme="b"><!--  data-tap-toggle="false"> -->
+			<div data-role="navbar" data-iconpos="top">
+				<ul>
+					<li><a class="btn-ok" href="#pageMain" data-icon="check">OK</a></li>
+					<li><a class="btn-clear" data-icon="delete">Clear</a></li>
+				</ul>
+			</div> <!-- /navbar -->
+		</div> <!-- /footer -->
 	</div>
 	
 </body>

@@ -1,5 +1,211 @@
+var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
+
+function onBackbutton() {
+	Debug.info('*** BACKBUTTON');
+////    // the intro div is considered home, so exit if use
+////    // wants to go back with button from there
+//	pageMain
+////    if ($('.api-div#api-intro').css('display') === 'block') {
+//  if ($('#pageMain').css('display') === 'block') {
+//        alert("Exiting app");
+//        navigator.app.exitApp();
+//    } else {    
+////        $('.api-div').hide();
+////        $('.api-div#api-intro').show();
+//        $.mobile.silentScroll(0);
+//    }
+}
+// IMPORTANT: see device.js for document.addEventListener() for each event
+var onSearchKeyDown = function() {
+	Debug.info('*** SEARCHKEY');
+//    $('#eventOutput').html('<span id="searchbuttontext" style="color:#28b;"><code>searchbutton</code> fired</span>');
+//    $('#searchbuttontext').fadeOut(1500, function(){});
+};
+var onMenuButtonDown = function() {
+	Debug.info('*** MENUBUTTON');
+//    $('#eventOutput').html('<span id="menubuttontext" style="color:#2b8;"><code>menubutton</code> fired</span>');
+//    $('#menubuttontext').fadeOut(1500, function(){});
+};
+var onEventFired = function() {  // generic logging event handler
+	Debug.info('*** EVENT');
+};
+// IMPORTANT: see device.js for document.addEventListener() for each event
+
+var onPause = function() {
+	Debug.info('*** PAUSE');
+};
+var onResume = function() {
+	Debug.info('*** RESUME');
+};
+var onOnline = function() {
+	Debug.info('*** ONLINE');
+};
+var onOffline = function() {
+	Debug.info('*** OFFLINE');
+};
+
+
+var GAPlugin = function(){
+	var gaPlugin;
+	var onSuccess = function() {
+		Debug.info('GAPlugin.onSuccess('+JSON.stringify(arguments)+')');
+	};
+	var onError = function() {
+		Debug.error('GAPlugin.onError('+JSON.stringify(arguments)+')');
+	};
+	return {
+		init: function(id) {
+			gaPlugin = window.plugins.gaPlugin;
+			Debug.info('GAPlugin.init('+JSON.stringify(arguments)+')');
+		  if(gaPlugin) gaPlugin.init(onSuccess, onError, id, 10);
+		},
+		trackEvent: function(category, eventAction, eventLabel, eventValue) {
+			Debug.info('GAPlugin.trackEvent('+JSON.stringify(arguments)+')');
+			if(gaPlugin) gaPlugin.trackEvent( onSuccess, onError, category, eventAction, eventLabel, eventValue);
+		},
+		setVariable: function(key, value, index){
+			Debug.info('GAPlugin.setVariable('+JSON.stringify(arguments)+')');
+			if(gaPlugin) gaPlugin.setVariable(onSuccess, onError, key, value, (index || 1));
+		},
+		trackPage: function(url) {
+			Debug.info('GAPlugin.trackPage('+JSON.stringify(arguments)+')');
+			if(gaPlugin) gaPlugin.trackPage(onSuccess, onError, url);
+		},
+		exit: function(id) {
+			Debug.info('GAPlugin.exit('+JSON.stringify(arguments)+')');
+		    if(gaPlugin) gaPlugin.exit(onSuccess, onError);
+		}
+	};
+}();
+
+var onDeviceReady = function() {
+	Debug.info('*** DEVICEREADY');
+	GAPlugin.init(GA_PLUGIN_ID);
+  // Debug.info('*** navigator.splashscreen.hide');
+  navigator.splashscreen.hide();
+    
+    // api-device
+//    // ***IMPORTANT: access device object only AFTER "deviceready" event    
+//    document.getElementById("name").innerHTML = device.name;
+//    document.getElementById("pgversion").innerHTML = device.cordova ? device.cordova : device.phonegap;
+//    document.getElementById("platform").innerHTML = device.platform;
+//    document.getElementById("uuid").innerHTML = device.uuid;
+//    document.getElementById("version").innerHTML = device.version;
+//    // screen information  ***Not necessary to wait for deviceready event
+//    document.getElementById("width").innerHTML = screen.width;
+//    document.getElementById("height").innerHTML = screen.height;
+//    document.getElementById("availwidth").innerHTML = screen.availWidth;
+//    document.getElementById("availheight").innerHTML = screen.availHeight;
+//    document.getElementById("colorDepth").innerHTML = screen.colorDepth;  
+    
+    // api-events - see events.js for handler implementations
+    // ***IMPORTANT: add event listeners only AFTER "deviceready" event    
+    document.addEventListener("searchbutton", onSearchKeyDown, false);   
+    document.addEventListener("menubutton", onMenuButtonDown, false);
+    document.addEventListener("pause", onPause, false);
+    document.addEventListener("resume", onResume, false);
+    document.addEventListener("online", onOnline, false);
+    document.addEventListener("offline", onOffline, false);
+    // using callback for backbutton event may interfere with normal behavior
+    document.addEventListener("backbutton", onBackbutton, false);
+//    document.addEventListener("batterycritical", onEventFired, false);
+//    document.addEventListener("batterylow", onEventFired, false);
+//    document.addEventListener("batterystatus", onEventFired, false);
+//    document.addEventListener("startcallbutton", onEventFired, false);
+//    document.addEventListener("endcallbutton", onEventFired, false);
+//    document.addEventListener("volumedownbutton", onEventFired, false);
+//    document.addEventListener("volumeupbutton", onEventFired, false);
+    
+    // api-camera  Photo URI
+//    pictureSource=navigator.camera.PictureSourceType;
+//    destinationType=navigator.camera.DestinationType;
+       
+//    // The Samsung Galaxy Tab 10.1 is currently the only device known to
+//    // support orientation/change correctly and reliably.
+//    if (device.name === "GT-P7510") {
+//        var updateScreen = function() {
+//            document.getElementById("width").innerHTML = screen.width;
+//            document.getElementById("height").innerHTML = screen.height;
+//            document.getElementById("availwidth").innerHTML = screen.availWidth;
+//            document.getElementById("availheight").innerHTML = screen.availHeight;        
+//        };         
+//        window.addEventListener("orientationchange", function(e){
+//            //console.log("window.orientation: " + window.orientation);
+//            updateScreen();
+//        }, false);
+//    }
+};
+
+function init() {
+	Debug.info('*** INIT');
+    document.addEventListener("deviceready", onDeviceReady, true);
+}
+
+var Debug = function(){
+	var logHistory = '';
+	var DEBUG = true;
+	var DEBUG_LEVEL = 0; //only log=0, info=1, warn=2, error=3}
+	var logIt = function(message) {
+		var dateTime = new Date()
+		logHistory += dateTime.toLocaleTimeString() + ' ('+dateTime.getMilliseconds()+'): ' + message+'\n';
+    $textLog = $('#textLog');
+		if($textLog)
+      $textLog.val(logHistory).attr('readonly','readonly');
+	};
+	return {
+		log : function(message) { if(DEBUG && console && DEBUG_LEVEL<=0) console.log(message); /*logIt(message);*/ },
+		info : function(message) { if(DEBUG && console && DEBUG_LEVEL<=1) console.log(message); logIt(message); },
+		warn : function(message) { if(DEBUG && console && DEBUG_LEVEL<=2) console.warn(message); logIt(message); },
+		error : function(message) { if(DEBUG && console && DEBUG_LEVEL<=3) console.error(message); logIt(message); },
+    clearLogHistory : function() { 
+      logHistory = ''; 
+      $textLog = $('#textLog');
+      if($textLog)
+        $textLog.val(logHistory).css("height", 40).keyup(); 
+    }
+	};
+}();
+
+$(document).on('mobileinit', function(){
+	Debug.info('*** MOBILEINIT');
+	// Building PhoneGap (Cordova) apps with jQuery Mobile
+	//   http://jquerymobile.com/demos/1.2.0/docs/pages/phonegap.html
+	$.mobile.allowCrossDomainPages = true; //
+	//  $.mobile.phonegapNavigationEnabled = true;  // If and only if your Android (Honeycomb) PhoneGap application uses a full page refresh (eg. for form validation) 
+	// PhoneGap tips & tricks
+	$.mobile.pushStateEnabled = false; // Enhancement to use history.replaceState in supported browsers, to convert the hash-based Ajax URL into the full document path. Note that we recommend disabling this feature if Ajax is disabled or if external links are used extensively.
+	$.mobile.ajaxEnabled = false;
+	$.mobile.page.prototype.options.backBtnText = 'Zpět';
+
+	$.mobile.loader.prototype.options.text = 'loading';
+	$.mobile.loader.prototype.options.textVisible = false;
+	$.mobile.loader.prototype.options.theme = 'a';
+	$.mobile.loader.prototype.options.html = '';
+
+	//http://stackoverflow.com/questions/11024464/speeding-up-page-transitions-in-jquery-mobile-1-1-for-iphone-apps-built-with-pho
+	$.mobile.buttonMarkup.hoverDelay = 0;
+	
+	// layout.js
+	$.support.touchOverflow = true;
+	$.mobile.touchOverflowEnabled = true;
+	//$.mobile.fixedToolbars.setTouchToggleEnabled(false);
+
+});
+
 //[{"code":"ID640PARK1","name":"BBC A","address":"Vyskočilova 1442/1b, Praha 4"},{"code":"ID100PARK1","name":"GAMMA","address":"Za Brumlovkou 2/266, Praha 4"},{"code":"ID629PARK1","name":"ÚTB","address":"Olšanská 6/2681, Praha 3"}]
 
+// Used to simulate async calls. This is done to provide a consistent interface with stores (like WebSqlStore)
+// that use async data access APIs
+var callLater = function(callback, data) {
+    if (callback) {
+        //var callbackFunctionName = callback.toString().match(/function ([^\(]+)/);//[1];
+        //if(callbackFunctionName) callbackFunctionName = callbackFunctionName[1]; 
+        //else callbackFunctionName = 'anonymous function';
+        setTimeout(function() {
+            callback(data);
+        });
+    }
+}
 
 var Sign = function(){
 	var SIGN_IMAGE_PATH = 'images/signs/';
@@ -51,17 +257,17 @@ var Parking = function(){
 	                   ];
 	var onLoading = function(tagValue, callbackMethod) {
 		Debug.info('Parking.onLoading('+tagValue+')');
-		if(callbackMethod) callbackMethod(tagValue);
+		callLater(callbackMethod, tagValue);
 		$.mobile.loading( 'show' );
 	};
 	var onSuccess = function(data, callbackMethod) {
 		Debug.info('Parking.onSuccess('+data+')');
-		if(callbackMethod) callbackMethod(data);
+		callLater(callbackMethod, data);
 		$.mobile.loading( 'hide' );
 	};
 	var onError = function(status, callbackMethod) {
 		Debug.error('Parking.onError('+status+')');
-		if(callbackMethod) callbackMethod(status);
+		callLater(callbackMethod, status);
 		$.mobile.loading( 'hide' );
 //		if(navigator.notification) 
 //			navigator.notification.confirm(
@@ -116,7 +322,7 @@ var Parking = function(){
 								parkingData[index].status = status;
 								if(callbackOnFinished) {
 									Debug.log('Parking.refresh.callbackOnFinished()');
-									callbackOnFinished(parkingData[index]);
+									callLater(callbackOnFinished, parkingData[index]);
 								}
 							}
 						});
@@ -142,7 +348,7 @@ var Parking = function(){
 								if(--parkingCount) {
 									if(callbackOnFinished) {
 										Debug.log('Parking.refreshAll.callbackOnFinished()');
-										callbackOnFinished(parkingData);
+										callLater(callbackOnFinished, parkingData);
 									}
 								}
 							}),
@@ -183,7 +389,7 @@ var Parking = function(){
 			if (parkingData.length != 0 && !refreshParkingData) {
 				if(callbackOnFinished) {
 					Debug.log('Parking.load.callbackOnFinished()');
-					callbackOnFinished(parkingData);
+					callLater(callbackOnFinished, parkingData);
 				}
 			} else { 
 				dataRequest(PARKING_DATA, 
@@ -196,7 +402,7 @@ var Parking = function(){
 							lastParkingDataUpdate = new Date();
 							if(callbackOnFinished) {
 								Debug.log('Parking.load.callbackOnFinished()');
-								callbackOnFinished(parkingData);
+								callLater(callbackOnFinished, parkingData);
 							}
 						}),
 						//callbackOnError
@@ -219,6 +425,7 @@ var ParkingGUI = function(){
 			var items = [];
 			items.push('<li data-role="list-divider">Lokalita</li>');
 			//var parkingData = Parking.list();
+      var nameElement = (enableDetail) ? 'h3' : 'b';
 			$.each(parkingData, function(index, value){
 				items.push(
 						'<li>' +
@@ -226,7 +433,9 @@ var ParkingGUI = function(){
 						'id="parking' + index + '" ' +
 						//'class="ui-bar-b" ' +
 						'data-id="' + value.code + '">' +
-						'<h3>'+value.name+'</h3>'
+            //(!enableDetail) 'data-mini="true"' : '' +
+						//'<h3>'+value.name+'</h3>'
+						'<'+nameElement+'>'+value.name+'</'+nameElement+'>'
 				);
 				if(enableDetail) {
 					items.push(
@@ -256,12 +465,12 @@ var ParkingGUI = function(){
 						/*onLoop*/function(minutes) {
 							var selectedParkingCode = Config.get(CONFIG_SELECTED_PARKING_CODE);
 							ParkingGUI.refreshStatus(selectedParkingCode);
-							$('.refresh-text').each( function() {
+							$('.text-refresh').each( function() {
 								$(this).text('Auto ('+minutes+' min)');
 							});
 						},
 						/*onFinish*/function() {
-							$('.refresh-text').each( function() {
+							$('.text-refresh').each( function() {
 								$(this).text('Aktualizovat');
 							});
 						},
@@ -269,7 +478,7 @@ var ParkingGUI = function(){
 			} else {
 				Timer.stop();
 //				$('a[data-icon="refresh"]').each( function() {
-				$('.refresh-text').each( function() {
+				$('.text-refresh').each( function() {
 					$(this).text('Aktualizovat');
 				});
 				var selectedParkingCode = Config.get(CONFIG_SELECTED_PARKING_CODE);
@@ -291,7 +500,7 @@ var ParkingGUI = function(){
 						Config.set(CONFIG_PARKING_LIST, parkingData);
 						if(callbackOnFinished) {
 							Debug.log('ParkingGUI.refreshAll.callbackOnFinished()');
-							callbackOnFinished(parkingData);
+							callLater(callbackOnFinished, parkingData);
 						}
 						
 					}
@@ -400,11 +609,11 @@ var Timer = function(){
 		running = diff < timeout;
 		if(running) {
 			Debug.log('Timer.diff='+diff+' '+timeout);
-			if(callbackOnLoop) callbackOnLoop(timeout-diff);
+			callLater(callbackOnLoop, timeout-diff);
 			timer = setTimeout(loop, interval*1000);
 		} else {
 			Debug.info('Timer finished');
-			if(callbackOnFinish) callbackOnFinish();
+			callLater(callbackOnFinish);
 		}
 		
 	};
@@ -473,6 +682,7 @@ var CONFIG_AUTOREFRESH_TIMEOUT = 'autoRefreshTimeout';
 var CONFIG_AUTOREFRESH_INTERVAL = 'autoRefreshInterval';
 var CONFIG_PARKING_DATA = 'parkingData';
 var CONFIG_PARKINGDATA_LAST_UPDATE = 'parkingDataLastUpdate';
+var CONFIG_ENABLE_DEBUGLOG = 'enableDebugLog';
 
 var Config = function(){
 	var CONFIG_DATA = 'configData';
@@ -629,18 +839,25 @@ $(document).on('pagebeforecreate','[data-role=page]', function(){
 	Layout.setActivePage($page);
 	if($page.find('[data-role="header"]').length === 0){
 		$page.prepend($('#universalHeader').html());
+    Debug.log('Added #universalHeader');
 	}
 	if($page.find('[data-role="footer"]').length === 0){
 		$page.append($('#universalFooter').html())
 		.find('a').removeClass('ui-btn-active')
 		.find('a.'+$page.attr('data-activeFooter')).addClass('ui-btn-active')
 		;
+    Debug.log('Added #universalFooter');
 	}
 });
 $(document).on('pagebeforeshow','[data-role=page]', function(){
 	var pageId = $.mobile.activePage.attr('id');
 	Debug.info('*** PAGEBEFORESHOW('+pageId+')');
 	GAPlugin.trackPage($.mobile.activePage.attr('id'));
+  // Enable debug log
+/*  var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG);
+  $('.li-pagelog').each( function() {
+    $(this).hide();
+  });*/
 });
 
 var APP_VERSION = '1.0.0';

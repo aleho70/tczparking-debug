@@ -1,23 +1,5 @@
-var Debug = function(){
-	var logHistory = '';
-	var DEBUG = true;
-	var DEBUG_LEVEL = 0; //only log=0, info=1, warn=2, error=3}
-	var logIt = function(message) {
-		var dateTime = new Date()
-		logHistory += dateTime.toLocaleTimeString() + ' ('+dateTime.getMilliseconds()+'): ' + message+'\n';
-		$('#textLog').val(logHistory);
-	};
-	return {
-		log : function(message) { if(DEBUG && console && DEBUG_LEVEL<=0) console.log(message); /*logIt(message);*/ },
-		info : function(message) { if(DEBUG && console && DEBUG_LEVEL<=1) console.log(message); logIt(message); },
-		warn : function(message) { if(DEBUG && console && DEBUG_LEVEL<=2) console.warn(message); logIt(message); },
-		error : function(message) { if(DEBUG && console && DEBUG_LEVEL<=3) console.error(message); logIt(message); },
-    clearLogHistory : function() { logHistory = ''; $('#textLog').val(logHistory); }
-	};
-}();
-
 $(document).on('mobileinit', function(){
-	Debug.info('*** MOBILEINIT');
+//	Debug.info('*** MOBILEINIT');
 	// Building PhoneGap (Cordova) apps with jQuery Mobile
 	//   http://jquerymobile.com/demos/1.2.0/docs/pages/phonegap.html
 	$.mobile.allowCrossDomainPages = true; //

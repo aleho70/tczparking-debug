@@ -2,6 +2,8 @@ var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
 
 function onBackbutton() {
 	Debug.info('*** BACKBUTTON');
+  $.mobile.changePage("#pageMain");
+  $.mobile.silentScroll(0);
 ////    // the intro div is considered home, so exit if use
 ////    // wants to go back with button from there
 //	pageMain
@@ -976,6 +978,7 @@ $.mobile.routerlite.pagechange('#pageMain', function(page, data ){
 					Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
 					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
 					$.mobile.changePage("#pageMain");
+          $.mobile.silentScroll(0);
 				});
 			})
 	);
@@ -996,12 +999,13 @@ $.mobile.routerlite.pagechange('#pageSelect', function(page){
 			/*callbackOnFinished*/
 			(function() {
 				$('#listParking1 li a').click(function(event) {
-			        event.preventDefault();
-			        var dataId = $(this).attr('data-id');
-			        Debug.log('Selected : ' + dataId);
-			        Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
+          event.preventDefault();
+          var dataId = $(this).attr('data-id');
+          Debug.log('Selected : ' + dataId);
+          Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
 					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
 					$.mobile.changePage("#pageMain");
+          $.mobile.silentScroll(0);
 				});
 			})
 	);
@@ -1017,27 +1021,4 @@ $.mobile.routerlite.pageinit('#pageLog', function(page){
 	$('.btn-clear').click(function() {
     Debug.clearLogHistory();
 	});
-	$('.btn-send').click(function() {
-    var dataString = 'subject=1&body=2'; //'+ name + '&email=' + email + '&phone=' + phone;  
-    $.ajax({  
-      type: "POST",  
-      url: "mailto:ales@holubec.net",  
-      data: dataString,  
-      success: function() {  
-        alert('ok');
-/*        $('#contact_form').html("<div id='message'></div>");  
-        $('#message').html("<h2>Contact Form Submitted!</h2>")  
-        .append("<p>We will be in touch soon.</p>")  
-        .hide()  
-        .fadeIn(1500, function() {  
-          $('#message').append("<img id='checkmark' src='images/check.png' />");  
-        });  */
-      }  
-    });  
-	});
-  
-
-function getBody() {
-    return 'HelloWorld';
-}
 });

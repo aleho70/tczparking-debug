@@ -150,7 +150,7 @@ var Debug = function(){
 		logHistory += dateTime.toLocaleTimeString() + ' ('+dateTime.getMilliseconds()+'): ' + message+'\n';
     $textLog = $('#textLog');
 		if($textLog)
-      $textLog.val(logHistory).attr('readonly','readonly');
+      $textLog.val(logHistory).attr('readonly','readonly').keyup();;
 	};
 	return {
 		log : function(message) { if(DEBUG && console && DEBUG_LEVEL<=0) console.log(message); /*logIt(message);*/ },
@@ -854,10 +854,10 @@ $(document).on('pagebeforeshow','[data-role=page]', function(){
 	Debug.info('*** PAGEBEFORESHOW('+pageId+')');
 	GAPlugin.trackPage($.mobile.activePage.attr('id'));
   // Enable debug log
-/*  var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG);
-  $('.li-pagelog').each( function() {
-    $(this).hide();
-  });*/
+  var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG);
+  $('.enable-debuglog').each( function() {
+    if(enableDebugLog) $(this).show(); else $(this).hide();
+  });
 });
 
 var APP_VERSION = '1.0.0';
@@ -897,6 +897,8 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 			GAPlugin.setVariable(CONFIG_AUTOREFRESH_TIMEOUT, refreshTimeout);
 			GAPlugin.setVariable(CONFIG_AUTOREFRESH_INTERVAL, refreshInterval);
 		}
+		var enableDebugLog = $("#checkDebugLog").is(':checked');
+		Config.set(CONFIG_ENABLE_DEBUGLOG, enableDebugLog);
 //		if(enableAutoRefresh) {
 //			Timer.start(function() {
 //				var selectedParkingCode = Config.get(CONFIG_SELECTED_PARKING_CODE);
@@ -920,6 +922,8 @@ $.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
 	disableUi('#selectTimeout,#selectInterval', !enableAutoRefresh);
 	$("#checkAutoRefresh").attr('checked', enableAutoRefresh).checkboxradio("refresh");
 	$("#selectTimeout,#selectInterval").selectmenu('refresh');
+	var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG) || false;
+	$("#enableDebugLog").attr('checked', enableDebugLog).checkboxradio("refresh");
 });
 
 //
@@ -1013,4 +1017,27 @@ $.mobile.routerlite.pageinit('#pageLog', function(page){
 	$('.btn-clear').click(function() {
     Debug.clearLogHistory();
 	});
+	$('.btn-send').click(function() {
+    var dataString = 'subject=1&body=2'; //'+ name + '&email=' + email + '&phone=' + phone;  
+    $.ajax({  
+      type: "POST",  
+      url: "mailto:ales@holubec.net",  
+      data: dataString,  
+      success: function() {  
+        alert('ok');
+/*        $('#contact_form').html("<div id='message'></div>");  
+        $('#message').html("<h2>Contact Form Submitted!</h2>")  
+        .append("<p>We will be in touch soon.</p>")  
+        .hide()  
+        .fadeIn(1500, function() {  
+          $('#message').append("<img id='checkmark' src='images/check.png' />");  
+        });  */
+      }  
+    });  
+	});
+  
+
+function getBody() {
+    return 'HelloWorld';
+}
 });

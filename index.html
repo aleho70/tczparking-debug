@@ -47,7 +47,7 @@
 					<li><a href="#pageMain" data-icon="refresh" class="btn-refresh Xui-state-persist"><span class="text-refresh">Aktualizovat</span></a></li>
 					<li><a href="#pageSelect" data-icon="search" class="Xui-state-persist">Vybrat</a></li>
 					<li><a href="#pageSetup" data-icon="gear" class="Xui-state-persist">Nastavit</a></li>
-					<li class="li-pagelog"><a href="#pageLog" data-icon="docs" class="Xui-state-persist">Log</a></li>
+					<li><a href="#pageInfo" data-icon="info" class="Xui-state-persist">O aplikaci</a></li>
 				</ul>
 			</div> <!-- /navbar -->
 		</div> <!-- /footer -->
@@ -65,6 +65,7 @@
 					<li data-icon="refresh"><a href="#pageMain"
 						class="btn-refresh"><span class="text-refresh">Aktualizovat</span></a></li>
 					<li data-icon="gear"><a href="#pageSetup">Nastavit</a></li>
+					<li data-icon="info"><a href="#pageInfo">O aplikaci</a></li>
 				</ul>
 			</div>
 
@@ -175,6 +176,10 @@
 						<option value="300">5 minut</option>
 					</select>
 				</div>
+				<div data-role="fieldcontain">
+					<input type="checkbox" name="checkDebugLog" id="checkDebugLog" /> 
+					<label for="checkDebugLog">Povolit zobrazení debug logu</label>
+				</div>
 <!-- 			</div> -->
 		</div>
 		<div data-role="footer" data-position="fixed" data-tap-toggle="false" id="footerInfo" data-theme="b"><!--  data-tap-toggle="false"> -->
@@ -196,7 +201,7 @@
 			<p>Aplikace pro zobrazení stavu obsazenosti parkovacích míst v budovách Telefonica Praha.</p>
 			<i>Copyright © 2012 <a href="mailto:ales.holubec@telefonica.com">Aleš Holubec</a></i>
       <div data-role="collapsible-set" data-theme="c" data-content-theme="d">
-        <div data-role="collapsible" data-collapsed="false" data-mini="true" data-iconpos="right" data-theme="c" data-content-theme="d">
+        <div data-role="collapsible" data-collapsed="false" data-mini="true" data-iconpos="right" >
             <h3>Verze 1.0.2</h3>
             29.12.2012
           <ul>
@@ -204,7 +209,7 @@
             <li>Sloučení kódu</li>
           </ul>
         </div>
-        <div data-role="collapsible" data-collapsed="true" data-mini="true" data-iconpos="right" data-theme="c" data-content-theme="d">
+        <div data-role="collapsible" data-collapsed="true" data-mini="true" data-iconpos="right">
             <h3>Verze 1.0.1</h3>
             23.12.2012
           <ul>
@@ -212,7 +217,7 @@
             <li>Google Analytics nastaven na Web type</li>
           </ul>
         </div>
-        <div data-role="collapsible" data-collapsed="true" data-mini="true" data-iconpos="right" data-theme="c" data-content-theme="d">
+        <div data-role="collapsible" data-collapsed="true" data-mini="true" data-iconpos="right">
             <h3>Verze 1.0.0</h3>
             20.12.2012
           <ul>
@@ -220,6 +225,11 @@
           </ul>
         </div>
       </div>
+        <div data-role="collapsible" data-collapsed="false" data-mini="true" data-iconpos="right" data-theme="c" data-content-theme="d" class="enable-debuglog">
+            <h3>Debug log</h3>
+            Zobrazí detailní informace o činnosti programu.
+            <a href="#pageLog" data-role="button" data-icon="alert" class="Xui-state-persist">Debug Log</a>
+        </div>
 		</div>
 		<div data-role="footer" data-position="fixed" data-tap-toggle="false" id="footerInfo" data-theme="b"><!--  data-tap-toggle="false"> -->
 			<div data-role="navbar" data-iconpos="top">
@@ -242,6 +252,7 @@
 				<ul>
 					<li><a class="btn-ok" href="#pageMain" data-icon="check">OK</a></li>
 					<li><a class="btn-clear" data-icon="delete">Clear</a></li>
+					<li><a class="btn-send" data-icon="send" href="">Send</a></li>
 				</ul>
 			</div> <!-- /navbar -->
 		</div> <!-- /footer -->

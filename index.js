@@ -1,12 +1,12 @@
 var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
 
-var dd = $.Deferred();
+/*var dd = $.Deferred();
 var jqd = $.Deferred();
 $.when(dd, jqd).done(doInit);
 
 $(document).bind('mobileinit', function () {
     jqd.resolve();
-});
+})*/;
             
 function onBackbutton() {
 	Debug.info('*** BACKBUTTON');

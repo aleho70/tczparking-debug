@@ -896,9 +896,9 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 	$('.btn-ok').click(function() {
 		var enableAutoRefresh = $("#checkAutoRefresh").is(':checked');
 		Config.set(CONFIG_ENABLE_AUTOREFRESH, enableAutoRefresh);
-		var refreshTimeout = $("#selectTimeout").val();
+		var refreshTimeout = parseInt($("#selectTimeout").val(),10);
 		Config.set(CONFIG_AUTOREFRESH_TIMEOUT, refreshTimeout);
-		var refreshInterval = $("#selectInterval").val();
+		var refreshInterval = parseInt($("#selectInterval").val(),10);
 		Config.set(CONFIG_AUTOREFRESH_INTERVAL, refreshInterval);
 		// Start autorefresh if it is enabled
 		ParkingGUI.autoRefresh(enableAutoRefresh);
@@ -917,26 +917,26 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 	});
 });
 
-$(document).on('pagebeforeshow','#pageSetup', function(){
+/*$(document).on('pagebeforeshow','#pageSetup', function(){
 	Debug.info('*** PAGEBEFORESHOW #pageSetup');
+});*/
+
+$.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
+	Debug.info('*** PAGECHANGE #pageSetup');
 	// remove "selected" from any options that might already be selected
 	$('option[selected="selected"]').each( function() {
 		$(this).removeAttr('selected');
 	});
-	var refreshTimeout = Config.get(CONFIG_AUTOREFRESH_TIMEOUT) || 2;
+	var refreshTimeout = parseInt(Config.get(CONFIG_AUTOREFRESH_TIMEOUT),10) || 2;
     $("#selectTimeout option[value='"+refreshTimeout+"']").attr('selected', 'selected');
-	var refreshInterval = Config.get(CONFIG_AUTOREFRESH_INTERVAL) || 30;
+	var refreshInterval = parseInt(Config.get(CONFIG_AUTOREFRESH_INTERVAL),10) || 30;
     $("#selectInterval option[value='"+refreshInterval+"']").attr('selected', 'selected');
 	var enableAutoRefresh = Config.get(CONFIG_ENABLE_AUTOREFRESH) || false;
 	disableUi('#selectTimeout,#selectInterval', !enableAutoRefresh);
 	$("#checkAutoRefresh").attr('checked', enableAutoRefresh).checkboxradio("refresh");
+	$("#selectTimeout,#selectInterval").selectmenu('refresh');
 	var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG) || false;
 	$("#checkDebugLog").attr('checked', enableDebugLog).checkboxradio("refresh");
-});
-
-$.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
-	Debug.info('*** PAGECHANGE #pageSetup');
-	$("#selectTimeout,#selectInterval").selectmenu('refresh');
 });
 
 

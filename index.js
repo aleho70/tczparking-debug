@@ -1,26 +1,17 @@
 var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
-
-/*var dd = $.Deferred();
-var jqd = $.Deferred();
-$.when(dd, jqd).done(doInit);
-
-$(document).bind('mobileinit', function () {
-    jqd.resolve();
-})*/;
-            
+           
 function onBackbutton() {
 	Debug.info('*** BACKBUTTON');
   if($.mobile.activePage.attr("id") == "pageMain"){
 		if(navigator.notification) {
 			navigator.notification.confirm(
 					'Ukončit aplikaci?',
-          onExitApp,
-/*					function() {
-            alert(button);
+//          onExitApp,
+					function() {
             if (button == 2) {
               navigator.app.exitApp();
             }
-          },*/
+          },
 					'TCZ Parking',
 					'Ne,Ano'
 			);
@@ -44,13 +35,6 @@ function onBackbutton() {
 //        $.mobile.silentScroll(0);
 //    }
 }
-function onExitApp(button) {
-	Debug.log('onExitApp button='+button);
-  if (button == 2) {
-    navigator.app.exitApp();
-  }
-};
-
 
 // IMPORTANT: see device.js for document.addEventListener() for each event
 var onSearchKeyDown = function() {
@@ -122,11 +106,6 @@ var onDeviceReady = function() {
 	GAPlugin.init(GA_PLUGIN_ID);
   // Debug.info('*** navigator.splashscreen.hide');
   navigator.splashscreen.hide();
-  if(dd) {
-    dd.resolve();
-    console.log('*** dd.resolve()');
-  }
-
     
     // api-device
 //    // ***IMPORTANT: access device object only AFTER "deviceready" event    
@@ -185,30 +164,6 @@ function init() {
     document.addEventListener("deviceready", onDeviceReady, true);
 }
 
-var Debug = function(){
-	var logHistory = '';
-	var DEBUG = true;
-	var DEBUG_LEVEL = 0; //only log=0, info=1, warn=2, error=3}
-	var logIt = function(message) {
-		var dateTime = new Date()
-		logHistory += dateTime.toLocaleTimeString() + ' ('+dateTime.getMilliseconds()+'): ' + message+'\n';
-    $textLog = $('#textLog');
-		if($textLog)
-      $textLog.val(logHistory).attr('readonly','readonly').keyup();;
-	};
-	return {
-		log : function(message) { if(DEBUG && console && DEBUG_LEVEL<=0) console.log(message); /*logIt(message);*/ },
-		info : function(message) { if(DEBUG && console && DEBUG_LEVEL<=1) console.log(message); logIt(message); },
-		warn : function(message) { if(DEBUG && console && DEBUG_LEVEL<=2) console.warn(message); logIt(message); },
-		error : function(message) { if(DEBUG && console && DEBUG_LEVEL<=3) console.error(message); logIt(message); },
-    clearLogHistory : function() { 
-      logHistory = ''; 
-      $textLog = $('#textLog');
-      if($textLog)
-        $textLog.val(logHistory).css("height", 40).keyup(); 
-    }
-	};
-}();
 
 /*$(document).on('mobileinit', function(){
 	Debug.info('*** MOBILEINIT');

@@ -1,7 +1,8 @@
 $(document).on('mobileinit', function(){
-//	Debug.info('*** MOBILEINIT');
+	Debug.info('*** MOBILEINIT');
 	// Building PhoneGap (Cordova) apps with jQuery Mobile
 	//   http://jquerymobile.com/demos/1.2.0/docs/pages/phonegap.html
+  $.support.cors = true;
 	$.mobile.allowCrossDomainPages = true; //
 	//  $.mobile.phonegapNavigationEnabled = true;  // If and only if your Android (Honeycomb) PhoneGap application uses a full page refresh (eg. for form validation) 
 	// PhoneGap tips & tricks
@@ -21,9 +22,4 @@ $(document).on('mobileinit', function(){
 	$.support.touchOverflow = true;
 	$.mobile.touchOverflowEnabled = true;
 	//$.mobile.fixedToolbars.setTouchToggleEnabled(false);
-
-  if(jqd) {
-    jqd.resolve();
-    console.log('*** jqd.resolve()');
-  }
 });

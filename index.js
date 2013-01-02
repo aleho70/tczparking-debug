@@ -1,5 +1,13 @@
 var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
 
+var dd = $.Deferred();
+var jqd = $.Deferred();
+$.when(dd, jqd).done(doInit);
+
+$(document).bind('mobileinit', function () {
+    jqd.resolve();
+});
+            
 function onBackbutton() {
 	Debug.info('*** BACKBUTTON');
   if($.mobile.activePage.attr("id") == "pageMain"){
@@ -7,6 +15,7 @@ function onBackbutton() {
 			navigator.notification.confirm(
 					'Ukončit aplikaci?',
 					function() {
+            alert(button);
             if (button == 2) {
               navigator.app.exitApp();
             }
@@ -196,7 +205,7 @@ var Debug = function(){
 	};
 }();
 
-$(document).on('mobileinit', function(){
+/*$(document).on('mobileinit', function(){
 	Debug.info('*** MOBILEINIT');
 	// Building PhoneGap (Cordova) apps with jQuery Mobile
 	//   http://jquerymobile.com/demos/1.2.0/docs/pages/phonegap.html
@@ -220,7 +229,7 @@ $(document).on('mobileinit', function(){
 	$.mobile.touchOverflowEnabled = true;
 	//$.mobile.fixedToolbars.setTouchToggleEnabled(false);
 
-});
+});*/
 
 //[{"code":"ID640PARK1","name":"BBC A","address":"Vyskočilova 1442/1b, Praha 4"},{"code":"ID100PARK1","name":"GAMMA","address":"Za Brumlovkou 2/266, Praha 4"},{"code":"ID629PARK1","name":"ÚTB","address":"Olšanská 6/2681, Praha 3"}]
 

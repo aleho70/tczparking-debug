@@ -613,6 +613,7 @@ var Timer = function(){
 			timer = setTimeout(loop, interval*1000);
 		} else {
 			Debug.info('Timer finished');
+      paused = false;
 			callLater(callbackOnFinish); // i kdyz je paused tak posledni aktualizaci provede
 		}
 		
@@ -1021,7 +1022,6 @@ $.mobile.routerlite.pagechange('#pageSelect', function(page){
           Debug.log('Selected : ' + dataId);
           Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
 					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
-          Timer.resume();
 					$.mobile.changePage("#pageMain");
           $.mobile.silentScroll(0);
 				});

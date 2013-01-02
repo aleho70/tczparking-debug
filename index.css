@@ -1,3 +1,9 @@
+.info-logo {
+  float:right;
+  display:inline;
+  width:100px;
+}
+
 .ui-page {
     -webkit-backface-visibility: hidden;
 }
@@ -5,7 +11,7 @@
 	display: none;
 	height: 100%;
 }
-.content-primary {
+.Xcontent-primary {
 	margin: 0px;
 	padding: 0px;
 }
@@ -17,34 +23,13 @@
 	margin: 0px;
 }
 
-
-.Xui-collapsible .ui-icon {
-  background-color: red;
-}
-
-.Xui-collapsible-collapsed .ui-icon{
-  background-color: yellow;
-}
-.Xui-collapsible .cnt{
-	display: none;
-}
-.Xui-collapsible-collapsed .cnt{
-	display: block;
-}
-
-.Xcnt{
-font-size: 11px;
-font-weight: bold;
-padding: 2px 5px 2px 5px;
-margin-left: 5px;
-	width: 1.3em;
-	text-align: center;
-}​
-
-
 .content-primary h2 {
 	position: absolute;
 	left: -9999px;
+}
+
+.Xui-li-count {
+  font-size: 14px;
 }
 
 .ui-li-twoBubble .ui-li-count {
@@ -78,8 +63,8 @@ margin-left: 5px;
 
 @media all and (min-width: 500px) and (orientation:landscape) {
 	#pageMain .ui-content {
-		margin: 0;
-		padding: 0;
+		margin: 0px;
+		padding: 0px;
 	}
 	#pageMain .content-primary {
 		margin: 10px;
@@ -90,63 +75,38 @@ margin-left: 5px;
 		display: none;
 	}
 	
-.sign img {
+  .sign img {
 		width: 40%;
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
 	}
-	.content-secondary{
+	.Xcontent-secondary {
 		margin-top: -15px;
 		margin-left: -15px;
 		height: 100%;
-}
+  }
 
-.content-secondary .ui-collapsible-set{
+  .content-secondary .ui-collapsible-set{
 		margin-top: 0px;
 		margin-left: 15px;
 		margin-right: 15px;
-}
+  }
 
 	.parking {
 		margin: 0px;
-    	padding: 0;
-}
+    padding: 0px;
+  }
 
-.content-primary h2 {
+  .content-primary h2 {
 		position: relative;
 		left: 0px;
 	}
-	.Xui-content {
-		margin: 0;
-		padding: 0;
-	}
-	.Xcontent-secondary .ui-collapsible {
-		padding: 0; /*10px 15px;*/
-		margin: 0;
-	}
-	.Xcontent-secondary .ui-collapsible-inset {
-		margin: 0;
-	}
-	.Xcontent-secondary .ui-collapsible-content {
-		display: block;
-		margin: 0;
-		padding: 0;
-	}
 	.content-secondary .ui-listview {
-		margin: 0;
-	}
-/*	.content-secondary h2 {
-		position: absolute;
-		left: -9999px;
-	}*/
-	.Xcontent-secondary .ui-li-desc {
-		padding-right: 10px;
+		margin: 0px;
 	}
 	.content-primary .ui-listview {
 		margin: 0px;
-	/*margin: 5px;
-		/*margin-top: 5px;*/
 	}
 
 	.content-secondary {

@@ -3,8 +3,20 @@ var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
 function onBackbutton() {
 	Debug.info('*** BACKBUTTON');
   if($.mobile.activePage.attr("id") == "pageMain"){
-    alert("Ukončuji aplikaci TCZ Parking");
-    navigator.app.exitApp();
+		if(navigator.notification) {
+			navigator.notification.confirm(
+					'Ukončit aplikaci?',
+					function() {
+            if (button == 2) {
+              navigator.app.exitApp();
+            }
+          },
+					'TCZ Parking',
+					'Ne,Ano'
+			);
+    } else {
+      navigator.app.exitApp();
+    }
   } else {
     $.mobile.changePage("#pageMain");
     $.mobile.silentScroll(0);
@@ -22,6 +34,15 @@ function onBackbutton() {
 //        $.mobile.silentScroll(0);
 //    }
 }
+function onErrorRetry(button) {
+  if (button == 2) {
+    getParkingStatus(getBuildingCode());
+    //getBuildingCode();
+    //dataRequest();
+  }
+};
+
+
 // IMPORTANT: see device.js for document.addEventListener() for each event
 var onSearchKeyDown = function() {
 	Debug.info('*** SEARCHKEY');

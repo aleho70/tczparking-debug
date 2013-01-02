@@ -22,4 +22,8 @@ $(document).on('mobileinit', function(){
 	$.mobile.touchOverflowEnabled = true;
 	//$.mobile.fixedToolbars.setTouchToggleEnabled(false);
 
+  if(jqd) {
+    jqd.resolve();
+    console.log('*** jqd.resolve()');
+  }
 });

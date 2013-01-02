@@ -14,12 +14,13 @@ function onBackbutton() {
 		if(navigator.notification) {
 			navigator.notification.confirm(
 					'Ukončit aplikaci?',
-					function() {
+          onExitApp,
+/*					function() {
             alert(button);
             if (button == 2) {
               navigator.app.exitApp();
             }
-          },
+          },*/
 					'TCZ Parking',
 					'Ne,Ano'
 			);
@@ -43,11 +44,10 @@ function onBackbutton() {
 //        $.mobile.silentScroll(0);
 //    }
 }
-function onErrorRetry(button) {
+function onExitApp(button) {
+	Debug.log('onExitApp button='+button);
   if (button == 2) {
-    getParkingStatus(getBuildingCode());
-    //getBuildingCode();
-    //dataRequest();
+    navigator.app.exitApp();
   }
 };
 
@@ -122,6 +122,11 @@ var onDeviceReady = function() {
 	GAPlugin.init(GA_PLUGIN_ID);
   // Debug.info('*** navigator.splashscreen.hide');
   navigator.splashscreen.hide();
+  if(dd) {
+    dd.resolve();
+    console.log('*** dd.resolve()');
+  }
+
     
     // api-device
 //    // ***IMPORTANT: access device object only AFTER "deviceready" event    
@@ -653,7 +658,7 @@ var Timer = function(){
 			timer = setTimeout(loop, interval*1000);
 		} else {
 			Debug.info('Timer finished');
-			if(!paused) callLater(callbackOnFinish);
+			callLater(callbackOnFinish); // i kdyz je paused tak posledni aktualizaci provede
 		}
 		
 	};

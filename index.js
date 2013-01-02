@@ -2,8 +2,13 @@ var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
 
 function onBackbutton() {
 	Debug.info('*** BACKBUTTON');
-  $.mobile.changePage("#pageMain");
-  $.mobile.silentScroll(0);
+  if($.mobile.activePage.attr("id") == "pageMain"){
+    alert("Ukončuji aplikaci TCZ Parking");
+    navigator.app.exitApp();
+  } else {
+    $.mobile.changePage("#pageMain");
+    $.mobile.silentScroll(0);
+  }
 ////    // the intro div is considered home, so exit if use
 ////    // wants to go back with button from there
 //	pageMain
@@ -35,9 +40,11 @@ var onEventFired = function() {  // generic logging event handler
 
 var onPause = function() {
 	Debug.info('*** PAUSE');
+  Timer.pause();
 };
 var onResume = function() {
 	Debug.info('*** RESUME');
+  Timer.resume();
 };
 var onOnline = function() {
 	Debug.info('*** ONLINE');
@@ -603,7 +610,8 @@ var ParkingGUI = function(){
 }();
 
 var Timer = function(){
-	var timer, callbackOnLoop, callbackOnFinish, interval, timeout, started, running;
+	var timer, callbackOnLoop, callbackOnFinish, interval, timeout, started, running, paused=false;
+  // paused will not stop timer but it will not call calback function
 	var loop = function() {
 		Debug.info('Timer.loop()');
 		var now = new Date();
@@ -611,11 +619,11 @@ var Timer = function(){
 		running = diff < timeout;
 		if(running) {
 			Debug.log('Timer.diff='+diff+' '+timeout);
-			callLater(callbackOnLoop, timeout-diff);
+			if(!paused) callLater(callbackOnLoop, timeout-diff);
 			timer = setTimeout(loop, interval*1000);
 		} else {
 			Debug.info('Timer finished');
-			callLater(callbackOnFinish);
+			if(!paused) callLater(callbackOnFinish);
 		}
 		
 	};
@@ -631,12 +639,21 @@ var Timer = function(){
 			interval = intervalS; // ? (intervalS * 1000) : 30000;
 			timeout = timeoutM;
 			started = new Date();
+      paused=false;
 			timer = setTimeout(loop, 0);
-	    },
-	    stop: function() {
-	        if(timer)
-	        	clearTimeout(timer);
-	    }
+    },
+    stop: function() {
+        if(timer)
+          clearTimeout(timer);
+    },
+    pause: function() {
+        if(timer)
+          paused=true;
+    },
+    resume: function() {
+        if(timer)
+          paused=false;
+    }
 	};
 }();	    
 

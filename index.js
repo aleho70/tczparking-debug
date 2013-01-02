@@ -908,6 +908,8 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 		}
 		var enableDebugLog = $("#checkDebugLog").is(':checked');
 		Config.set(CONFIG_ENABLE_DEBUGLOG, enableDebugLog);
+    Timer.resume();
+
 //		if(enableAutoRefresh) {
 //			Timer.start(function() {
 //				var selectedParkingCode = Config.get(CONFIG_SELECTED_PARKING_CODE);
@@ -923,7 +925,8 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 
 $.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
 	Debug.info('*** PAGECHANGE #pageSetup');
-	// remove "selected" from any options that might already be selected
+  Timer.pause();
+// remove "selected" from any options that might already be selected
 	$('option[selected="selected"]').each( function() {
 		$(this).removeAttr('selected');
 	});
@@ -952,6 +955,7 @@ $.mobile.routerlite.pagechange('#pageMain', function(page, data ){
 		// display pageInfo because it is first time or saved version is different 
 		$.mobile.changePage("#pageInfo");
 	} else {
+    Timer.resume();
 		var selectedParkingCode = Config.get(CONFIG_SELECTED_PARKING_CODE);
 		// If is selection unknown, disable refresh buttons and hide parking interface 
 		disableUi('.btn-refresh', (selectedParkingCode==undefined));
@@ -1004,6 +1008,7 @@ $.mobile.routerlite.pageinit('#pageSelect', function(page){
 });
 $.mobile.routerlite.pagechange('#pageSelect', function(page){
 	Debug.info('*** PAGECHANGE #pageSelect');
+  Timer.pause();
 	var selectedParkingCode = Config.get(CONFIG_SELECTED_PARKING_CODE);
 	// If is selection unknown, disable refresh buttons and hide parking interface 
 	disableUi('.btn-refresh', (selectedParkingCode==undefined));
@@ -1016,6 +1021,7 @@ $.mobile.routerlite.pagechange('#pageSelect', function(page){
           Debug.log('Selected : ' + dataId);
           Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
 					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
+          Timer.resume();
 					$.mobile.changePage("#pageMain");
           $.mobile.silentScroll(0);
 				});

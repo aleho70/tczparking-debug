@@ -919,20 +919,24 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 
 $.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
 	Debug.info('*** PAGECHANGE #pageSetup');
+});
+
+$(document).on('pagebeforeshow','#pageSetup', function(){
+	Debug.info('*** PAGEBEFORESHOW #pageSetup');
 	// remove "selected" from any options that might already be selected
 	$('option[selected="selected"]').each( function() {
 		$(this).removeAttr('selected');
 	});
-	var refreshTimeout = Config.get(CONFIG_AUTOREFRESH_TIMEOUT) || 5;
+	var refreshTimeout = Config.get(CONFIG_AUTOREFRESH_TIMEOUT) || 2;
     $("#selectTimeout option[value='"+refreshTimeout+"']").attr('selected', 'selected');
-	var refreshInterval = Config.get(CONFIG_AUTOREFRESH_INTERVAL) || 60;
+	var refreshInterval = Config.get(CONFIG_AUTOREFRESH_INTERVAL) || 30;
     $("#selectInterval option[value='"+refreshInterval+"']").attr('selected', 'selected');
 	var enableAutoRefresh = Config.get(CONFIG_ENABLE_AUTOREFRESH) || false;
 	disableUi('#selectTimeout,#selectInterval', !enableAutoRefresh);
 	$("#checkAutoRefresh").attr('checked', enableAutoRefresh).checkboxradio("refresh");
 	$("#selectTimeout,#selectInterval").selectmenu('refresh');
 	var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG) || false;
-	$("#enableDebugLog").attr('checked', enableDebugLog).checkboxradio("refresh");
+	$("#checkDebugLog").attr('checked', enableDebugLog).checkboxradio("refresh");
 });
 
 //

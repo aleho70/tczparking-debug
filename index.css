@@ -1,3 +1,6 @@
+.ui-page {
+    -webkit-backface-visibility: hidden;
+}
 .content-secondary { 
 	display: none;
 	height: 100%;

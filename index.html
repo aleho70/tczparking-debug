@@ -21,6 +21,7 @@
 <script type="text/javascript" charset="utf-8" src="jqm/jquery.mobile.routerlite.js"></script>
 <script src="phonegap.js"></script>
 <script src="GAPlugin.js"></script>
+<script src="childbrowser.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/date.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/jquery.touchToClick.js" ></script> 
 <script type="text/javascript" charset="utf-8" src="js/layout.js"></script> 
@@ -205,11 +206,13 @@
 			<i>Copyright © 2012 <a href="mailto:ales.holubec@telefonica.com?subject=TCZ%20Parking%20feedback">Aleš Holubec</a></i>
       <div data-role="collapsible-set" data-theme="c" data-content-theme="d">
         <div data-role="collapsible" data-collapsed="false" data-mini="true" data-iconpos="right" >
-            <h3>Verze 1.0.0</h3>
-            2.1.2013
+            <h3>Verze 0.9.0</h3>
+            3.1.2013
           <ul>
             <li>Základní verze určená k otestovaní širší skupinou uživatelů</li>
-            <li>Pro urychlení distribuce případných oprav používá funkci <a href="https://build.phonegap.com/docs/hydration" rel="external">Hydration</a> pro cloudový Adobe Phonegap Build a aplikace je v podepsána pouze development certifikátem.</li>
+            <li>Pro urychlení distribuce nových verzí aplikace s případnými opravami se používá funkce 
+            <a href="#" onClick="window.plugins.childBrowser.openExternal('https://build.phonegap.com/docs/hydration');">Hydration</a> z cloudového Adobe Phonegap Build. 
+            Aplikace proto oproti finální verzi startuje déle a je podepsána pouze development certifikátem.</li>
           </ul>
         </div>
       </div>

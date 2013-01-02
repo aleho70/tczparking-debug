@@ -7,7 +7,7 @@ function onBackbutton() {
 			navigator.notification.confirm(
 					'Ukončit aplikaci?',
 //          onExitApp,
-					function() {
+					function(button) {
             if (button == 2) {
               navigator.app.exitApp();
             }
@@ -917,10 +917,6 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 	});
 });
 
-$.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
-	Debug.info('*** PAGECHANGE #pageSetup');
-});
-
 $(document).on('pagebeforeshow','#pageSetup', function(){
 	Debug.info('*** PAGEBEFORESHOW #pageSetup');
 	// remove "selected" from any options that might already be selected
@@ -934,10 +930,15 @@ $(document).on('pagebeforeshow','#pageSetup', function(){
 	var enableAutoRefresh = Config.get(CONFIG_ENABLE_AUTOREFRESH) || false;
 	disableUi('#selectTimeout,#selectInterval', !enableAutoRefresh);
 	$("#checkAutoRefresh").attr('checked', enableAutoRefresh).checkboxradio("refresh");
-	$("#selectTimeout,#selectInterval").selectmenu('refresh');
 	var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG) || false;
 	$("#checkDebugLog").attr('checked', enableDebugLog).checkboxradio("refresh");
 });
+
+$.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
+	Debug.info('*** PAGECHANGE #pageSetup');
+	$("#selectTimeout,#selectInterval").selectmenu('refresh');
+});
+
 
 //
 // pageMain

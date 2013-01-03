@@ -851,7 +851,6 @@ var lastRefresh = new Date();
 //
 $(document).on('pageinit','[data-role=page]', function(event){
 	Debug.info('*** PAGEINIT('+event.target.id+ ')');
- // protoze je href #pageMain tak neni nutne
 //	$('.btn-refresh').click(function() {
 //		ParkingGUI.refreshStatus(Config.get(CONFIG_SELECTED_PARKING_CODE));
 //	});
@@ -991,7 +990,8 @@ $.mobile.routerlite.pageinit('#pageMain', function(page){
 					var dataId = $(this).attr('data-id');
 					// /Debug.log('Selected : ' + dataId +' '+id);
 					Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
-					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
+					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId); 
+          ParkingGUI.refreshStatus(dataId); // protoze pokud bezi timer tak se to nedela
 					$.mobile.changePage("#pageMain");
           $.mobile.silentScroll(0);
 				});
@@ -1061,6 +1061,7 @@ $.mobile.routerlite.pagechange('#pageSelect', function(page){
           // /Debug.log('Selected : ' + dataId);
           Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
 					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
+          ParkingGUI.refreshStatus(dataId); // protoze pokud bezi timer tak se to nedela
 					$.mobile.changePage("#pageMain");
           $.mobile.silentScroll(0);
 				});

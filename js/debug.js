@@ -1,7 +1,7 @@
 var Debug = function(){
 	var logHistory = '';
 	var DEBUG = true;
-	var DEBUG_LEVEL = 0; //only log=0, info=1, warn=2, error=3}
+	var DEBUG_LEVEL = 1; //only log=0, info=1, warn=2, error=3}
 	var logIt = function(message) {
 		var dateTime = new Date()
 		logHistory += dateTime.toLocaleTimeString() + ' ('+dateTime.getMilliseconds()+'): ' + message+'\n';

@@ -633,8 +633,12 @@ var Timer = function(){
 	return {
 		start: function(onLoop, onFinish, intervalS/* seconds */, timeoutM/* minutess */) {
 			Debug.info('Timer.start('+intervalS+','+timeoutM+')');
-			if(running && interval==intervalS && timeout==timeoutM)
-				return; // timer is already running and parameters are not changed
+			if(running && interval==intervalS && timeout==timeoutM) {
+        var now = new Date();
+        var diff = DateDiff.inMinutes(started, now);
+        if(!paused) callLater(callbackOnLoop, timeout-diff);
+        return; // timer is already running and parameters are not changed
+      }
 			// start timer and change parameters 
 			this.stop();
 			callbackOnLoop = onLoop;
@@ -851,9 +855,9 @@ var lastRefresh = new Date();
 //
 $(document).on('pageinit','[data-role=page]', function(event){
 	Debug.info('*** PAGEINIT('+event.target.id+ ')');
-//	$('.btn-refresh').click(function() {
-//		ParkingGUI.refreshStatus(Config.get(CONFIG_SELECTED_PARKING_CODE));
-//	});
+	$('.btn-refresh').click(function() {
+		//ParkingGUI.refreshStatus(Config.get(CONFIG_SELECTED_PARKING_CODE));
+	});
 	// disable the tap to toggle for fixed footer and headers 
 	//$('[data-role=header],[data-role=footer]').fixedtoolbar({ tapToggle:false });
 	//$('[data-role=footer]').fixedtoolbar({ tapToggle:false });
@@ -991,7 +995,7 @@ $.mobile.routerlite.pageinit('#pageMain', function(page){
 					// /Debug.log('Selected : ' + dataId +' '+id);
 					Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
 					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId); 
-          ParkingGUI.refreshStatus(dataId); // protoze pokud bezi timer tak se to nedela
+          //ParkingGUI.refreshStatus(dataId); // protoze pokud bezi timer tak se to nedela
 					$.mobile.changePage("#pageMain");
           $.mobile.silentScroll(0);
 				});
@@ -1061,7 +1065,7 @@ $.mobile.routerlite.pagechange('#pageSelect', function(page){
           // /Debug.log('Selected : ' + dataId);
           Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
 					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
-          ParkingGUI.refreshStatus(dataId); // protoze pokud bezi timer tak se to nedela
+          //ParkingGUI.refreshStatus(dataId); // protoze pokud bezi timer tak se to nedela
 					$.mobile.changePage("#pageMain");
           $.mobile.silentScroll(0);
 				});

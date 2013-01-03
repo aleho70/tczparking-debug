@@ -302,10 +302,12 @@ var Parking = function(){
 			}
 		});
 	};
-
+  var enableCallbackOnFinished = false;
+  
 	return {
 		refresh: function(parkingCode, callbackOnFinished){
 			Debug.info('Parking.refresh('+parkingCode+')');
+      enableCallbackOnFinished = true;
 			dataRequest(parkingCode, 
 					//callbackOnLoading
 					undefined, 
@@ -319,7 +321,7 @@ var Parking = function(){
 							if(parkingData[index].code === parkingCode) {
 //								console.log(parkingData[index].code+'==='+parkingCode);
 								parkingData[index].status = status;
-								if(callbackOnFinished) {
+								if(callbackOnFinished && enableCallbackOnFinished) {
 									// /Debug.log('Parking.refresh.callbackOnFinished()');
 									callLater(callbackOnFinished, parkingData[index]);
 								}
@@ -333,6 +335,7 @@ var Parking = function(){
 		},
 		refreshAll: function(callbackOnFinished){
 			Debug.info('Parking.refreshAll()');
+      enableCallbackOnFinished = true;
 			this.load( function(data) {
 				$.each(parkingData, function(index, value) {
 					var len = $.map(parkingData, function(n, i) { return i; }).length;
@@ -345,7 +348,8 @@ var Parking = function(){
 								var status = (data[2][0]=='[') ? $.parseJSON(data[2]) : $.parseJSON('['+data[2]+']'); // fix data
 								parkingData[index].status = status;
 								if(--parkingCount) {
-									if(callbackOnFinished) {
+                  Debug.log('enableCallbackOnFinished='+enableCallbackOnFinished);
+									if(callbackOnFinished && enableCallbackOnFinished) {
 										// /Debug.log('Parking.refreshAll.callbackOnFinished()');
 										callLater(callbackOnFinished, parkingData);
 									}
@@ -357,6 +361,10 @@ var Parking = function(){
 				});
 			});
 		},
+    stopRefresh: function() {
+			Debug.info('Parking.stopRefresh()');
+      enableCallbackOnFinished = false;
+    },
 		list: function(){
 			Debug.info('Parking.list()');
 			// /Debug.log(parkingData);
@@ -451,7 +459,7 @@ var ParkingGUI = function(){
 			});
 			$listId.html(items.join(''));    
 			$listId.trigger('create');    
-			$listId.listview('refresh');
+			try { $listId.listview('refresh'); } catch(e) {};
 		}
 	};
 	return {
@@ -492,6 +500,7 @@ var ParkingGUI = function(){
 		refreshList: function(listId, enableDetail, callbackOnFinished) {
 			var savedParkingData = Config.get(CONFIG_PARKING_LIST);
 			list(listId, savedParkingData, enableDetail);
+      
 			Parking.refreshAll(
 					//callbackOnFinished
 					function(parkingData) {
@@ -506,10 +515,12 @@ var ParkingGUI = function(){
 			);
 		},
 		refreshStatus: function(parkingCode) {
+      Debug.log(parkingCode);
 			if(parkingCode)
 			Parking.refresh(parkingCode,
 					//callbackOnFinished
 					function(parkingData) {
+            $('.parking').show(); // presunuto sem aby se zobrazilo az ve chvili kdy jsou aktualni data
 						$parkingName = $('#parkingName');
 						$statusLastUpdate = $('#statusLastUpdate');
 						$statusTimeout = $('#statusTimeout');
@@ -702,12 +713,12 @@ var Config = function(){
 	return {
 		get: function(id){
 			this.load();
-			Debug.log('Config.get('+id+')='+configData[id]);
+//			Debug.info('Config.get('+id+')='+configData[id]);
 //			Debug.log(configData[id]);
 			return configData[id];
 		},
 		set: function(id, value){
-			Debug.log('Config.set('+id+','+value+')');
+//			Debug.info('Config.set('+id+','+value+')');
 			configData[id] = value;
 			this.save();
 		},
@@ -838,11 +849,12 @@ var lastRefresh = new Date();
 //
 // global page init
 //
-$(document).on('pageinit','[data-role=page]', function(){
-	Debug.info('*** PAGEINIT');
-	$('.btnRefresh').click(function() {
-		ParkingGUI.refreshStatus(Config.get(CONFIG_SELECTED_PARKING_CODE));
-	});
+$(document).on('pageinit','[data-role=page]', function(event){
+	Debug.info('*** PAGEINIT('+event.target.id+ ')');
+ // protoze je href #pageMain tak neni nutne
+//	$('.btn-refresh').click(function() {
+//		ParkingGUI.refreshStatus(Config.get(CONFIG_SELECTED_PARKING_CODE));
+//	});
 	// disable the tap to toggle for fixed footer and headers 
 	//$('[data-role=header],[data-role=footer]').fixedtoolbar({ tapToggle:false });
 	//$('[data-role=footer]').fixedtoolbar({ tapToggle:false });
@@ -850,8 +862,8 @@ $(document).on('pageinit','[data-role=page]', function(){
 //
 // global page create
 //
-$(document).on('pagebeforecreate','[data-role=page]', function(){
-	Debug.info('*** PAGEBEFORECREATE');
+$(document).on('pagebeforecreate','[data-role=page]', function(event){
+  Debug.info('*** PAGEBEFORECREATE('+event.target.id+ ')');
 	// Universal header and footer
 	var $page = $(this);
 	Layout.setActivePage($page);
@@ -889,6 +901,14 @@ $.mobile.routerlite.pageinit('#pageInfo', function(page){
 	$('.btn-ok').click(function() {
 		// save actual version, later only if it will be another, then pageInfo will be displayed again 
 		Config.set(CONFIG_VERSION, APP_VERSION);
+	});
+	$('.btn-test').click(function() {
+		try {
+    Debug.log( window.plugins.childBrowser.openExternal('https://build.phonegap.com/docs/hydration') );
+    }
+    catch(e) {
+    Debug.error(e);
+    }
 	});
 });
 
@@ -930,10 +950,6 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 
 /*$(document).on('pagebeforeshow','#pageSetup', function(){
 	Debug.info('*** PAGEBEFORESHOW #pageSetup');
-});*/
-
-$.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
-	Debug.info('*** PAGECHANGE #pageSetup');
   Timer.pause();
 // remove "selected" from any options that might already be selected
 	$('option[selected="selected"]').each( function() {
@@ -949,6 +965,11 @@ $.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
 	$("#selectTimeout,#selectInterval").selectmenu('refresh');
 	var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG) || false;
 	$("#checkDebugLog").attr('checked', enableDebugLog).checkboxradio("refresh");
+ });*/
+
+$.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
+	Debug.info('*** PAGECHANGE #pageSetup');
+
 });
 
 
@@ -957,10 +978,35 @@ $.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
 //
 $.mobile.routerlite.pageinit('#pageMain', function(page){
 	Debug.info('*** PAGEINIT #pageMain');
+	// Update parking list in landscape menu
+	ParkingGUI.refreshList('#listParking2', false /*enableDetail*/, 
+			/*callbackOnFinished*/
+			(function() {
+				$('#listParking2 li a').click(function(event) {
+					event.preventDefault();
+					var id = $(this).attr('id');
+					$('#listParking2 li a').removeClass('ui-bar-b');
+					$('#' + id).addClass('ui-bar-b');
+					var dataId = $(this).attr('data-id');
+					// /Debug.log('Selected : ' + dataId +' '+id);
+					Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
+					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
+					$.mobile.changePage("#pageMain");
+          $.mobile.silentScroll(0);
+				});
+			})
+	);
+  
 });
+
+$(document).on('pagebeforechange','#pageMain', function(){
+	Debug.info('*** PAGEBEFORECHANGE #pageMain');
+alert(10);
+});
+
 $.mobile.routerlite.pagechange('#pageMain', function(page, data ){
 	Debug.info('*** PAGECHANGE #pageMain');
-	if(Config.get(CONFIG_VERSION) != APP_VERSION) {
+  	if(Config.get(CONFIG_VERSION) != APP_VERSION) {
 		// display pageInfo because it is first time or saved version is different 
 		$.mobile.changePage("#pageInfo");
 	} else {
@@ -969,7 +1015,7 @@ $.mobile.routerlite.pagechange('#pageMain', function(page, data ){
 		// If is selection unknown, disable refresh buttons and hide parking interface 
 		disableUi('.btn-refresh', (selectedParkingCode==undefined));
 		if(selectedParkingCode) {
-			$('.parking').show();
+			//$('.parking').show();
 			// Start autorefresh if it is enabled
 			var enableAutoRefresh = Config.get(CONFIG_ENABLE_AUTOREFRESH);
 			ParkingGUI.autoRefresh(enableAutoRefresh);
@@ -989,24 +1035,7 @@ $.mobile.routerlite.pagechange('#pageMain', function(page, data ){
 			$.mobile.changePage("#pageSelect");
 		}
 	}
-	// Update parking list in landscape menu
-	ParkingGUI.refreshList('#listParking2', false /*enableDetail*/, 
-			/*callbackOnFinished*/
-			(function() {
-				$('#listParking2 li a').click(function(event) {
-					event.preventDefault();
-					var id = $(this).attr('id');
-					$('#listParking2 li a').removeClass('ui-bar-b');
-					$('#' + id).addClass('ui-bar-b');
-					var dataId = $(this).attr('data-id');
-					// /Debug.log('Selected : ' + dataId +' '+id);
-					Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
-					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
-					$.mobile.changePage("#pageMain");
-          $.mobile.silentScroll(0);
-				});
-			})
-	);
+
 });
 
 //
@@ -1026,6 +1055,7 @@ $.mobile.routerlite.pagechange('#pageSelect', function(page){
 			(function() {
 				$('#listParking1 li a').click(function(event) {
           event.preventDefault();
+          Parking.stopRefresh();
           var dataId = $(this).attr('data-id');
           // /Debug.log('Selected : ' + dataId);
           Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);

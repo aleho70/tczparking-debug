@@ -45,7 +45,7 @@
 		<div data-role="footer"  id="footerMain" data-position="fixed" data-tap-toggle="false" data-theme="b">
 			<div data-role="navbar" data-iconpos="top">
 				<ul>
-					<li><a href="#pageMain" data-icon="refresh" class="btn-refresh Xui-state-persist"><span class="text-refresh">Aktualizovat</span></a></li>
+					<li><a href="#pageMain" data-icon="refresh" class="Xbtn-refresh"><span class="text-refresh">Aktualizovat</span></a></li>
 					<li><a href="#pageSelect" data-icon="search" class="Xui-state-persist">Vybrat</a></li>
 					<li><a href="#pageSetup" data-icon="gear" class="Xui-state-persist">Nastavit</a></li>
 					<li><a href="#pageInfo" data-icon="info" class="Xui-state-persist">O aplikaci</a></li>
@@ -63,8 +63,7 @@
 				</ul>
 				<ul id="menuParking2" data-role="listview" data-inset="false"
 					class="ui-li-twoBubble" data-theme="b" data-dividertheme="b">
-					<li data-icon="refresh"><a href="#pageMain"
-						class="btn-refresh"><span class="text-refresh">Aktualizovat</span></a></li>
+					<li data-icon="refresh"><a href="#pageMain"	class="Xbtn-refresh"><span class="text-refresh">Aktualizovat</span></a></li>
 					<li data-icon="gear"><a href="#pageSetup">Nastavit</a></li>
 					<li data-icon="info"><a href="#pageInfo">O aplikaci</a></li>
 				</ul>
@@ -220,6 +219,7 @@
             <h3>Debug log</h3>
             Zobrazí detailní informace o činnosti programu.
             <a href="#pageLog" data-role="button" data-icon="alert" class="Xui-state-persist">Debug Log</a>
+            <a data-role="button" data-icon="alert" class="btn-test">Test ChildBrowser plugin</a>
         </div>
 		</div>
 		<div data-role="footer" data-position="fixed" data-tap-toggle="false" id="footerInfo" data-theme="b"><!--  data-tap-toggle="false"> -->

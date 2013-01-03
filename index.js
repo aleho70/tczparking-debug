@@ -614,7 +614,7 @@ var Timer = function(){
 	var timer, callbackOnLoop, callbackOnFinish, interval, timeout, started, running, paused=false;
   // paused will not stop timer but it will not call calback function
 	var loop = function() {
-		Debug.info('Timer.loop()');
+		Debug.info('Timer.loop(paused='+paused+')');
 		var now = new Date();
 		var diff = DateDiff.inMinutes(started, now);
 		running = diff < timeout;
@@ -625,7 +625,8 @@ var Timer = function(){
 			timer = setTimeout(loop, interval*1000);
 		} else {
 			Debug.info('Timer finished');
-			if(paused) callLater(callbackOnLoop, timeout-diff); // kdyz je paused tak posledni aktualizaci provede
+			//if(paused) callLater(callbackOnLoop, timeout-diff); // kdyz je paused tak posledni aktualizaci provede
+      callLater(callbackOnLoop, timeout-diff); // na konci aktualizaci provede vzdy
 			callLater(callbackOnFinish); 
 		}
 		
@@ -934,14 +935,14 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 		var refreshInterval = parseInt($("#selectInterval").val(),10);
 		Config.set(CONFIG_AUTOREFRESH_INTERVAL, refreshInterval);
 		// Start autorefresh if it is enabled
-		ParkingGUI.autoRefresh(enableAutoRefresh);
+    Timer.resume();
+		//ParkingGUI.autoRefresh(enableAutoRefresh); // protoze to zavola page change u #pageMain
 		if(enableAutoRefresh) {
 			GAPlugin.setVariable(CONFIG_AUTOREFRESH_TIMEOUT, refreshTimeout);
 			GAPlugin.setVariable(CONFIG_AUTOREFRESH_INTERVAL, refreshInterval);
 		}
 		var enableDebugLog = $("#checkDebugLog").is(':checked');
 		Config.set(CONFIG_ENABLE_DEBUGLOG, enableDebugLog);
-    Timer.resume();
 
 //		if(enableAutoRefresh) {
 //			Timer.start(function() {

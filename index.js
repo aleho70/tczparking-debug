@@ -613,8 +613,8 @@ var Timer = function(){
 			timer = setTimeout(loop, interval*1000);
 		} else {
 			Debug.info('Timer finished');
-      paused = false;
-			callLater(callbackOnFinish); // i kdyz je paused tak posledni aktualizaci provede
+			if(paused) callLater(callbackOnLoop, timeout-diff); // kdyz je paused tak posledni aktualizaci provede
+			callLater(callbackOnFinish); 
 		}
 		
 	};

@@ -904,7 +904,7 @@ $.mobile.routerlite.pageinit('#pageInfo', function(page){
 	});
 	$('.btn-test').click(function() {
 		try {
-    Debug.log( window.plugins.childBrowser.openExternal('https://build.phonegap.com/docs/hydration') );
+    Debug.log( window.plugins.childBrowser.showWebPage('https://build.phonegap.com/docs/hydration'), { showLocationBar: true, showAddress: true, showNavigationBar: true } );
     }
     catch(e) {
     Debug.error(e);
@@ -948,7 +948,7 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 	});
 });
 
-/*$(document).on('pagebeforeshow','#pageSetup', function(){
+$(document).on('pagebeforeshow','#pageSetup', function(){
 	Debug.info('*** PAGEBEFORESHOW #pageSetup');
   Timer.pause();
 // remove "selected" from any options that might already be selected
@@ -965,7 +965,7 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 	$("#selectTimeout,#selectInterval").selectmenu('refresh');
 	var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG) || false;
 	$("#checkDebugLog").attr('checked', enableDebugLog).checkboxradio("refresh");
- });*/
+ });
 
 $.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
 	Debug.info('*** PAGECHANGE #pageSetup');

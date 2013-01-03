@@ -904,7 +904,8 @@ $.mobile.routerlite.pageinit('#pageInfo', function(page){
 	});
 	$('.btn-test').click(function() {
 		try {
-    Debug.log( window.plugins.childBrowser.showWebPage('https://build.phonegap.com/docs/hydration'), { showLocationBar: true, showAddress: true, showNavigationBar: true } );
+    window.plugins.childBrowser.showWebPage('http://www.google.com', { showLocationBar: false });
+    //Debug.log( window.plugins.childBrowser.showWebPage('https://build.phonegap.com/docs/hydration'), { showLocationBar: true, showAddress: true, showNavigationBar: true } );
     }
     catch(e) {
     Debug.error(e);

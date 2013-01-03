@@ -14,7 +14,7 @@
     </author>
 
     <gap:plugin name="Analytics" /> <!-- latest release -->
-    <gap:plugin name="ChildBrowser" version="3.0.4" /> <!-- latest release -->
+    <gap:plugin name="ChildBrowser" version="3.0.4" /> 
 
     <feature name="http://api.phonegap.com/1.0/device" />
     <feature name="http://api.phonegap.com/1.0/notification"/>

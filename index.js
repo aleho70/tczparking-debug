@@ -320,7 +320,7 @@ var Parking = function(){
 //								console.log(parkingData[index].code+'==='+parkingCode);
 								parkingData[index].status = status;
 								if(callbackOnFinished) {
-									Debug.log('Parking.refresh.callbackOnFinished()');
+									// /Debug.log('Parking.refresh.callbackOnFinished()');
 									callLater(callbackOnFinished, parkingData[index]);
 								}
 							}
@@ -346,7 +346,7 @@ var Parking = function(){
 								parkingData[index].status = status;
 								if(--parkingCount) {
 									if(callbackOnFinished) {
-										Debug.log('Parking.refreshAll.callbackOnFinished()');
+										// /Debug.log('Parking.refreshAll.callbackOnFinished()');
 										callLater(callbackOnFinished, parkingData);
 									}
 								}
@@ -359,14 +359,14 @@ var Parking = function(){
 		},
 		list: function(){
 			Debug.info('Parking.list()');
-			Debug.log(parkingData);
+			// /Debug.log(parkingData);
 			return parkingData;
 		},
 		get: function(parkingCode){
 			Debug.info('Parking.get('+parkingCode+')');
 			$.each(parkingData, function(index, value) {
 				if(parkingData[index].code === parkingCode) {
-					Debug.log(parkingData[index]);
+					// /Debug.log(parkingData[index]);
 					return parkingData[index]
 				}
 			});
@@ -374,7 +374,7 @@ var Parking = function(){
 		load: function(callbackOnFinished){
 			Debug.info('Parking.load()');
 			parkingData = Config.get(CONFIG_PARKING_DATA) || [];
-			Debug.log(parkingData);
+			// /Debug.log(parkingData);
 
 			var refreshParkingData = true;
 //			lastParkingDataUpdate = Config.get(CONFIG_PARKINGDATA_LAST_UPDATE) || 5;
@@ -387,7 +387,7 @@ var Parking = function(){
 //			Debug.warn(parkingData.length+' '+refreshParkingData );
 			if (parkingData.length != 0 && !refreshParkingData) {
 				if(callbackOnFinished) {
-					Debug.log('Parking.load.callbackOnFinished()');
+					// /Debug.log('Parking.load.callbackOnFinished()');
 					callLater(callbackOnFinished, parkingData);
 				}
 			} else { 
@@ -400,7 +400,7 @@ var Parking = function(){
 							Parking.save(parkingData);
 							lastParkingDataUpdate = new Date();
 							if(callbackOnFinished) {
-								Debug.log('Parking.load.callbackOnFinished()');
+								// /Debug.log('Parking.load.callbackOnFinished()');
 								callLater(callbackOnFinished, parkingData);
 							}
 						}),
@@ -436,7 +436,7 @@ var ParkingGUI = function(){
 						//'<h3>'+value.name+'</h3>'
 						'<'+nameElement+'>'+value.name+'</'+nameElement+'>'
 				);
-				if(enableDetail) {
+				if(enableDetail && value.status) {
 					items.push(
 							'<p>'+value.address+'</p>'+
 							'<p>Čas aktualizace: <b>'+value.status[0]+'</b></p>'+
@@ -498,7 +498,7 @@ var ParkingGUI = function(){
 						list(listId, parkingData, enableDetail);
 						Config.set(CONFIG_PARKING_LIST, parkingData);
 						if(callbackOnFinished) {
-							Debug.log('ParkingGUI.refreshAll.callbackOnFinished()');
+							// /Debug.log('ParkingGUI.refreshAll.callbackOnFinished()');
 							callLater(callbackOnFinished, parkingData);
 						}
 						
@@ -532,7 +532,7 @@ var ParkingGUI = function(){
 								Debug.warn(selectedParkingData);
 							}
 							selectedParkingData = selectedParkingData[0]; // first item in returned array
-							Debug.log('selectedParkingData = '+JSON.stringify(selectedParkingData)+'');
+							// /Debug.log('selectedParkingData = '+JSON.stringify(selectedParkingData)+'');
 
 							var status = selectedParkingData.status;
 							//var status = (data[2][0]=='[') ? $.parseJSON(data[2]) : $.parseJSON('['+data[2]+']'); // fix data
@@ -607,8 +607,9 @@ var Timer = function(){
 		var now = new Date();
 		var diff = DateDiff.inMinutes(started, now);
 		running = diff < timeout;
-		if(running) {
-			Debug.log('Timer.diff='+diff+' '+timeout);
+    Debug.log('Timer: running='+running+' paused='+paused);
+    if(running) {
+			// /Debug.log('Timer.diff='+diff+' '+timeout);
 			if(!paused) callLater(callbackOnLoop, timeout-diff);
 			timer = setTimeout(loop, interval*1000);
 		} else {
@@ -700,13 +701,13 @@ var Config = function(){
 
 	return {
 		get: function(id){
-//			Debug.info('Config.get('+id+')');
 			this.load();
+			Debug.log('Config.get('+id+')='+configData[id]);
 //			Debug.log(configData[id]);
 			return configData[id];
 		},
 		set: function(id, value){
-//			Debug.info('Config.set('+id+','+value+')');
+			Debug.log('Config.set('+id+','+value+')');
 			configData[id] = value;
 			this.save();
 		},
@@ -803,9 +804,16 @@ $(document).on('pageshow','[data-role=page]', function(){
 
 
 function flash($element) {
+//  $element.css({'font-size':'120%'});  
 	$element.fadeTo('fast', 0.5, function() {
 		$element.fadeTo('fast', 1);
-	});  
+	});
+//  $element.css({'font-size':'100%'});  
+/*  .animate({
+    fontSize: '110%'
+  }, 500, 'linear', {fontSize: '100%'
+  });*/
+  
 //	$(elementId).removeClass('ui-btn-up-c').addClass('ui-btn-up-e').fadeTo('slow', 0.5, function() {
 //		$(elementId).removeClass('ui-btn-up-e').addClass('ui-btn-up-c').fadeTo('fast', 1);
 //	});  
@@ -849,14 +857,14 @@ $(document).on('pagebeforecreate','[data-role=page]', function(){
 	Layout.setActivePage($page);
 	if($page.find('[data-role="header"]').length === 0){
 		$page.prepend($('#universalHeader').html());
-    Debug.log('Added #universalHeader');
+    // /Debug.log('Added #universalHeader');
 	}
 	if($page.find('[data-role="footer"]').length === 0){
 		$page.append($('#universalFooter').html())
 		.find('a').removeClass('ui-btn-active')
 		.find('a.'+$page.attr('data-activeFooter')).addClass('ui-btn-active')
 		;
-    Debug.log('Added #universalFooter');
+    // /Debug.log('Added #universalFooter');
 	}
 });
 $(document).on('pagebeforeshow','[data-role=page]', function(){
@@ -870,7 +878,7 @@ $(document).on('pagebeforeshow','[data-role=page]', function(){
   });
 });
 
-var APP_VERSION = '1.0.0';
+var APP_VERSION = '0.9.0';
 
 //
 // pageInfo
@@ -991,7 +999,7 @@ $.mobile.routerlite.pagechange('#pageMain', function(page, data ){
 					$('#listParking2 li a').removeClass('ui-bar-b');
 					$('#' + id).addClass('ui-bar-b');
 					var dataId = $(this).attr('data-id');
-					Debug.log('Selected : ' + dataId +' '+id);
+					// /Debug.log('Selected : ' + dataId +' '+id);
 					Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
 					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
 					$.mobile.changePage("#pageMain");
@@ -1019,7 +1027,7 @@ $.mobile.routerlite.pagechange('#pageSelect', function(page){
 				$('#listParking1 li a').click(function(event) {
           event.preventDefault();
           var dataId = $(this).attr('data-id');
-          Debug.log('Selected : ' + dataId);
+          // /Debug.log('Selected : ' + dataId);
           Config.set(CONFIG_SELECTED_PARKING_CODE, dataId);
 					GAPlugin.setVariable(CONFIG_SELECTED_PARKING_CODE, dataId);
 					$.mobile.changePage("#pageMain");

@@ -5,15 +5,7 @@
   <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
 <title>TCZ Parking</title>
 <link rel="stylesheet" href="jqm/jquery.mobile-1.2.0.min.css" /> 
-<!--
-<link rel="stylesheet"	href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
- -->
 <link rel="stylesheet" href="index.css" />
-<!-- <script type="text/javascript" charset="utf-8" src="js/jquery.touchToClick.js"></script> -->
-<!-- 
-<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-<script	src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
- -->
 <script type="text/javascript" charset="utf-8" src="jqm/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/debug.js"></script> 
 <script type="text/javascript" charset="utf-8" src="js/config.js"></script> 
@@ -26,8 +18,6 @@
 <script type="text/javascript" charset="utf-8" src="js/jquery.touchToClick.js" ></script> 
 <script type="text/javascript" charset="utf-8" src="js/layout.js"></script> 
 <script type="text/javascript" charset="utf-8" src="index.js"></script>
-<!-- <script type="text/javascript" charset="utf-8" src="js/cordova-2.1.0.js"></script> -->
-<!--<script src="screendim.js"></script>-->
 </head>
 
 <body onload="init();">
@@ -176,6 +166,13 @@
               </select>
             </div>
           </li>
+					<li data-role="list-divider">Semafor</li>
+          <li>
+            <div data-role="fieldcontain">
+              <label for="editYellowThreshold">Počet volných míst od kdy svítí žlutá:</label> 
+              <input type="range" name="editYellowThreshold" id="editYellowThreshold" min="1" max="50" />
+            </div>
+          </li>
 					<li data-role="list-divider">Debug</li>
           <li>
             <div data-role="fieldcontain">
@@ -206,10 +203,26 @@
 			<i>Copyright © 2012 <a href="mailto:ales.holubec@telefonica.com?subject=TCZ%20Parking%20feedback">Aleš Holubec</a></i>
       <div data-role="collapsible-set" data-theme="c" data-content-theme="d">
         <div data-role="collapsible" data-collapsed="false" data-mini="true" data-iconpos="right" >
+            <h3>Verze 1.0.0</h3>
+            4.1.2013
+          <ul>
+            <li>Základní verze určená k otestovaní širší skupinou uživatelů</li>
+            <li>Testováno na: Galaxy Nexus</li>
+            <li>Podporované platformy:</li>
+              <ul>
+              <li><b>Android</b>: ensure your Android device can install apk files from unknown sources enter Settings --> Applications --> and enable Unkown Sources</li>
+              <li><b>webOS</b>: You cannot install webOS packages (ipk files) directly from the web; use Palm's palm-install utility for this</li>
+              <li><b>Symbian</b>: Download and open the wgz file on your device. Done!</li>
+              <li><b>Windows Phone</b>: You cannot install Windows Phone packages directly from the web; you will need to use Microsoft's tools</li>
+              </ul>
+            <li>Nepodporované platformy: iOS, BlackBerry</li>
+          </ul>
+        </div>
+        <div data-role="collapsible" data-collapsed="true" data-mini="true" data-iconpos="right" >
             <h3>Verze 0.9.0</h3>
             3.1.2013
           <ul>
-            <li>Základní verze určená k otestovaní širší skupinou uživatelů</li>
+            <li>Testovací verze pro nové funkce</li>
             <li>Pro urychlení distribuce nových verzí aplikace s případnými opravami se používá funkce 
             <a href="#" onClick="window.plugins.childBrowser.showWebPage('https://build.phonegap.com/docs/hydration');">Hydration</a> z cloudového Adobe Phonegap Build. 
             Aplikace proto oproti finální verzi startuje déle a je podepsána pouze development certifikátem.</li>
@@ -220,7 +233,6 @@
             <h3>Debug log</h3>
             Zobrazí detailní informace o činnosti programu.
             <a href="#pageLog" data-role="button" data-icon="alert" class="Xui-state-persist">Debug Log</a>
-            <a data-role="button" data-icon="alert" class="btn-test">Test ChildBrowser plugin</a>
         </div>
 		</div>
 		<div data-role="footer" data-position="fixed" data-tap-toggle="false" id="footerInfo" data-theme="b"><!--  data-tap-toggle="false"> -->
@@ -250,8 +262,4 @@
 	</div>
 	
 </body>
-<!--<script type="text/javascript" charset="utf-8" src="js/device.js"></script> -->
-<!-- 
-<script	src="https://raw.github.com/1Marc/jquery-mobile-routerlite/master/jquery.mobile.routerlite.js"></script>
- -->
 </html>

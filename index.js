@@ -1,3 +1,5 @@
+var APP_VERSION = '1.0.0';
+
 var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
            
 function onBackbutton() {
@@ -227,7 +229,11 @@ var Sign = function(){
 			if(count>YELLOW_THRESHOLD) return COLOR.GREEN;
 			else if(count>0) return COLOR.YELLOW;
 			else return COLOR.RED;
-		}
+		},
+    setYellowThreshold: function(yellowThreshold) {
+      if(!yellowThreshold || isNaN(yellowThreshold) || !(yellowThreshold>0)) yellowThreshold = 10;
+      return YELLOW_THRESHOLD = yellowThreshold;
+    }
 	};
 	
 }();
@@ -710,6 +716,7 @@ var CONFIG_AUTOREFRESH_INTERVAL = 'autoRefreshInterval';
 var CONFIG_PARKING_DATA = 'parkingData';
 var CONFIG_PARKINGDATA_LAST_UPDATE = 'parkingDataLastUpdate';
 var CONFIG_ENABLE_DEBUGLOG = 'enableDebugLog';
+var CONFIG_YELLOW_THRESHOLD = 'yellowThreshold';
 
 var Config = function(){
 	var CONFIG_DATA = 'configData';
@@ -859,6 +866,9 @@ $(document).on('pageinit','[data-role=page]', function(event){
 	$('.btn-refresh').click(function() {
 		//ParkingGUI.refreshStatus(Config.get(CONFIG_SELECTED_PARKING_CODE));
 	});
+	$('.parking-signs').click(function() {
+		ParkingGUI.refreshStatus(Config.get(CONFIG_SELECTED_PARKING_CODE));
+	});
 	// disable the tap to toggle for fixed footer and headers 
 	//$('[data-role=header],[data-role=footer]').fixedtoolbar({ tapToggle:false });
 	//$('[data-role=footer]').fixedtoolbar({ tapToggle:false });
@@ -894,7 +904,6 @@ $(document).on('pagebeforeshow','[data-role=page]', function(){
   });
 });
 
-var APP_VERSION = '0.9.0';
 
 //
 // pageInfo
@@ -943,6 +952,9 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 		}
 		var enableDebugLog = $("#checkDebugLog").is(':checked');
 		Config.set(CONFIG_ENABLE_DEBUGLOG, enableDebugLog);
+		var yellowThreshold = parseInt($("#editYellowThreshold").val(),10);
+		Config.set(CONFIG_YELLOW_THRESHOLD, Sign.setYellowThreshold(yellowThreshold));
+    
 
 //		if(enableAutoRefresh) {
 //			Timer.start(function() {
@@ -970,6 +982,8 @@ $(document).on('pagebeforeshow','#pageSetup', function(){
 	$("#selectTimeout,#selectInterval").selectmenu('refresh');
 	var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG) || false;
 	$("#checkDebugLog").attr('checked', enableDebugLog).checkboxradio("refresh");
+	var yellowThreshold = parseInt(Config.get(CONFIG_YELLOW_THRESHOLD),10) || 10;
+  $("#editYellowThreshold").val(yellowThreshold).slider('refresh');;
  });
 
 $.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
@@ -983,6 +997,7 @@ $.mobile.routerlite.pagechange('#pageSetup', function(page, data ){
 //
 $.mobile.routerlite.pageinit('#pageMain', function(page){
 	Debug.info('*** PAGEINIT #pageMain');
+  Sign.setYellowThreshold(Config.get(CONFIG_YELLOW_THRESHOLD));
 	// Update parking list in landscape menu
 	ParkingGUI.refreshList('#listParking2', false /*enableDetail*/, 
 			/*callbackOnFinished*/

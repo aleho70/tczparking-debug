@@ -231,9 +231,8 @@ var Sign = function(){
 			else return COLOR.RED;
 		},
     setYellowThreshold: function(yellowThreshold) {
-      Debug.log(yellowThreshold);
       if(!yellowThreshold || isNaN(yellowThreshold) || !(yellowThreshold>0)) yellowThreshold = 10;
-      Debug.log(yellowThreshold);
+      Debug.log('yellowThreshold='+yellowThreshold);
       return YELLOW_THRESHOLD = yellowThreshold;
     }
 	};
@@ -945,8 +944,9 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 		}
 		var enableDebugLog = $("#checkDebugLog").is(':checked');
 		Config.set(CONFIG_ENABLE_DEBUGLOG, enableDebugLog);
-		var yellowThreshold = parseInt($("#editYellowThreshold").val(),10);
-		Config.set(CONFIG_YELLOW_THRESHOLD, Sign.setYellowThreshold(yellowThreshold));
+		var yellowThreshold = Sign.setYellowThreshold( parseInt($("#editYellowThreshold").val(),10) );
+		Config.set(CONFIG_YELLOW_THRESHOLD, yellowThreshold);
+    GAPlugin.setVariable(CONFIG_YELLOW_THRESHOLD, yellowThreshold);
     
 
 //		if(enableAutoRefresh) {

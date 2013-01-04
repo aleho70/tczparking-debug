@@ -751,14 +751,25 @@ var Config = function(){
 		},
 		load: function(){
 //			Debug.info('Config.load()');
-			configData = JSON.parse(localStorage.getItem(CONFIG_DATA)) || {};
+      var configData = {};
+      try { 
+        configData = JSON.parse(window.localStorage.getItem(CONFIG_DATA));
 //			Debug.log(configData);
+      }
+      catch(e) {
+        Debug.error(e);
+      }
 			return configData;
 		},
 		save: function(newConfigData){
 			newConfigData = newConfigData || configData;
 //			Debug.info('Config.save('+newConfigData+')');
-			return localStorage.setItem(CONFIG_DATA, JSON.stringify(newConfigData));
+      try {
+        rerurn window.localStorage.setItem(CONFIG_DATA, JSON.stringify(newConfigData));
+      }
+      catch(e) {
+        Debug.error(e);
+      }
 		}
 	};
 }();

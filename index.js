@@ -983,7 +983,8 @@ $(document).on('pagebeforeshow','#pageSetup', function(){
 	var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG) || false;
 	$("#checkDebugLog").attr('checked', enableDebugLog).checkboxradio("refresh");
 	var yellowThreshold = parseInt(Config.get(CONFIG_YELLOW_THRESHOLD),10) || 10;
-  $("#editYellowThreshold").val(yellowThreshold).slider('refresh');;
+  $("#editYellowThreshold").val(yellowThreshold);
+  $("#editYellowThreshold").slider('refresh');;
  });
 
 $.mobile.routerlite.pagechange('#pageSetup', function(page, data ){

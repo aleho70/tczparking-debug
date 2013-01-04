@@ -231,7 +231,9 @@ var Sign = function(){
 			else return COLOR.RED;
 		},
     setYellowThreshold: function(yellowThreshold) {
+      Debug.log(yellowThreshold);
       if(!yellowThreshold || isNaN(yellowThreshold) || !(yellowThreshold>0)) yellowThreshold = 10;
+      Debug.log(yellowThreshold);
       return YELLOW_THRESHOLD = yellowThreshold;
     }
 	};
@@ -911,18 +913,9 @@ $(document).on('pagebeforeshow','[data-role=page]', function(){
 $.mobile.routerlite.pageinit('#pageInfo', function(page){
 	Debug.info('*** PAGEINIT #pageInfo');
 //	/GAPlugin.trackPage(CONFIG_SELECTED_PARKING_CODE, dataId);
-	$('.btn-ok').click(function() {
+	$('.btn-info-ok').click(function() {
 		// save actual version, later only if it will be another, then pageInfo will be displayed again 
 		Config.set(CONFIG_VERSION, APP_VERSION);
-	});
-	$('.btn-test').click(function() {
-		try {
-    window.plugins.childBrowser.showWebPage('http://www.google.com', { showLocationBar: false });
-    //Debug.log( window.plugins.childBrowser.showWebPage('https://build.phonegap.com/docs/hydration'), { showLocationBar: true, showAddress: true, showNavigationBar: true } );
-    }
-    catch(e) {
-    Debug.error(e);
-    }
 	});
 });
 
@@ -936,7 +929,7 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 		disableUi('#selectTimeout,#selectInterval', !enableAutoRefresh);
 		$("#selectTimeout,#selectInterval").selectmenu('refresh');
 	});
-	$('.btn-ok').click(function() {
+	$('.btn-setup-ok').click(function() {
 		var enableAutoRefresh = $("#checkAutoRefresh").is(':checked');
 		Config.set(CONFIG_ENABLE_AUTOREFRESH, enableAutoRefresh);
 		var refreshTimeout = parseInt($("#selectTimeout").val(),10);

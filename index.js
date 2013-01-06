@@ -1,4 +1,4 @@
-var APP_VERSION = '1.0.0';
+var APP_VERSION = '0.9.1';
 
 var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
            
@@ -765,7 +765,7 @@ var Config = function(){
 			newConfigData = newConfigData || configData;
 //			Debug.info('Config.save('+newConfigData+')');
       try {
-        rerurn window.localStorage.setItem(CONFIG_DATA, JSON.stringify(newConfigData));
+        return window.localStorage.setItem(CONFIG_DATA, JSON.stringify(newConfigData));
       }
       catch(e) {
         Debug.error(e);

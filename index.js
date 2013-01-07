@@ -1,4 +1,4 @@
-var APP_VERSION = '0.9.1';
+var APP_VERSION = '0.9.2';
 
 var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
            
@@ -522,7 +522,7 @@ var ParkingGUI = function(){
 			);
 		},
 		refreshStatus: function(parkingCode) {
-      Debug.log(parkingCode);
+      Debug.info('ParkingGUI.refreshStatus('+parkingCode+')');
 			if(parkingCode)
 			Parking.refresh(parkingCode,
 					//callbackOnFinished
@@ -562,30 +562,35 @@ var ParkingGUI = function(){
 							var previousLastUpdate = $statusLastUpdate.text();
 							$statusLastUpdate.text(status[0]);
 							if(status[0]!=previousLastUpdate) flash($statusLastUpdate);
-							
-							// Timeout in min
-							var previousTimeout = $statusTimeout.text();
-							var d1 = new Date(Date.fromString(status[0], {order: 'DMY'}));
-							var d2 = new Date();
-							var diffInMinutes = DateDiff.inMinutes(d1, d2);
+			
 							var s = 'před ';
-							if(diffInMinutes<120) {
-								s += diffInMinutes;
-								if(diffInMinutes == 1) s+=' minutou';
-								if(diffInMinutes == 0 || diffInMinutes>1) s+=' minutami';
-							} else {
-								var diffInHours = DateDiff.inMinutes(d1, d2);
-								if(diffInHours<24) {
-									s += diffInHours;
-									if(diffInHours == 1) s+= ' hodinou';
-									if(diffInHours == 0 || diffInHours>1) s+= ' hodinami';
-								} else {
-									var diffInDays = DateDiff.inDays(d1, d2);
-									s += diffInDays;
-									if(diffInDays == 1) s+= ' dnem';
-									if(diffInDays == 0 || diffInDays>1) s+= ' dny';
-								}
-							}
+              try {
+                // Timeout in min
+                var previousTimeout = $statusTimeout.text();
+                var d1 = new Date(Date.fromString(status[0], {order: 'DMY'}));
+                var d2 = new Date();
+                var diffInMinutes = DateDiff.inMinutes(d1, d2);
+                if(diffInMinutes<120) {
+                  s += diffInMinutes;
+                  if(diffInMinutes == 1) s+=' minutou';
+                  if(diffInMinutes == 0 || diffInMinutes>1) s+=' minutami';
+                } else {
+                  var diffInHours = DateDiff.inMinutes(d1, d2);
+                  if(diffInHours<24) {
+                    s += diffInHours;
+                    if(diffInHours == 1) s+= ' hodinou';
+                    if(diffInHours == 0 || diffInHours>1) s+= ' hodinami';
+                  } else {
+                    var diffInDays = DateDiff.inDays(d1, d2);
+                    s += diffInDays;
+                    if(diffInDays == 1) s+= ' dnem';
+                    if(diffInDays == 0 || diffInDays>1) s+= ' dny';
+                  }
+                }
+              }
+              catch(e) {
+                Debug.error(e);
+              }
 							$statusTimeout.text(s);
 							if(s!=previousTimeout) flash($statusTimeout);
 							
@@ -717,6 +722,7 @@ var CONFIG_AUTOREFRESH_INTERVAL = 'autoRefreshInterval';
 var CONFIG_PARKING_DATA = 'parkingData';
 var CONFIG_PARKINGDATA_LAST_UPDATE = 'parkingDataLastUpdate';
 var CONFIG_ENABLE_DEBUGLOG = 'enableDebugLog';
+var CONFIG_DEBUG_LEVEL = 'debugLevel';
 var CONFIG_YELLOW_THRESHOLD = 'yellowThreshold';
 
 var Config = function(){
@@ -725,22 +731,22 @@ var Config = function(){
 
 	return {
 		get: function(id){
-			this.load();
-//			Debug.info('Config.get('+id+')='+configData[id]);
-//			Debug.log(configData[id]);
-			return configData[id];
+      this.load();
+      var configValue = configData ? configData[id] : undefined;
+			Debug.log('Config.get('+id+')='+configValue);
+			return configValue;
 		},
 		set: function(id, value){
-//			Debug.info('Config.set('+id+','+value+')');
+			Debug.log('Config.set('+id+','+value+')');
 			configData[id] = value;
 			this.save();
 		},
 		remove: function(id){
-//			Debug.info('Config.remove('+id+')');
+			Debug.log('Config.remove('+id+')');
 			if (this.exists(id)) {
 				var data = this.load();
 				delete data[id];
-//				Debug.log('removed '+id);
+				Debug.log('removed '+id);
 				this.save(data);
 			}
 		},
@@ -750,11 +756,10 @@ var Config = function(){
 			else return false;
 		},
 		load: function(){
-//			Debug.info('Config.load()');
-      var configData = {};
+			//Debug.info('Config.load()');
       try { 
-        configData = JSON.parse(window.localStorage.getItem(CONFIG_DATA));
-//			Debug.log(configData);
+        configData = JSON.parse(window.localStorage.getItem(CONFIG_DATA)) || {};
+        //Debug.log(configData);
       }
       catch(e) {
         Debug.error(e);
@@ -765,7 +770,8 @@ var Config = function(){
 			newConfigData = newConfigData || configData;
 //			Debug.info('Config.save('+newConfigData+')');
       try {
-        return window.localStorage.setItem(CONFIG_DATA, JSON.stringify(newConfigData));
+//        window.localStorage.setItem(CONFIG_DATA, JSON.stringify(newConfigData));
+        localStorage.setItem(CONFIG_DATA, JSON.stringify(newConfigData));
       }
       catch(e) {
         Debug.error(e);
@@ -889,6 +895,10 @@ $(document).on('pageinit','[data-role=page]', function(event){
 // global page create
 //
 $(document).on('pagebeforecreate','[data-role=page]', function(event){
+  // 
+	var debugLevel = parseInt(Config.get(CONFIG_DEBUG_LEVEL),10) || 1;
+  Debug.setDebugLevel(debugLevel);
+
   Debug.info('*** PAGEBEFORECREATE('+event.target.id+ ')');
 	// Universal header and footer
 	var $page = $(this);
@@ -955,6 +965,9 @@ $.mobile.routerlite.pageinit('#pageSetup', function(page){
 		}
 		var enableDebugLog = $("#checkDebugLog").is(':checked');
 		Config.set(CONFIG_ENABLE_DEBUGLOG, enableDebugLog);
+		var debugLevel = parseInt($("#selectDebugLevel").val(),10);
+    Debug.setDebugLevel(debugLevel);
+		Config.set(CONFIG_DEBUG_LEVEL, debugLevel);
 		var yellowThreshold = Sign.setYellowThreshold( parseInt($("#editYellowThreshold").val(),10) );
 		Config.set(CONFIG_YELLOW_THRESHOLD, yellowThreshold);
     GAPlugin.setVariable(CONFIG_YELLOW_THRESHOLD, yellowThreshold);
@@ -986,6 +999,9 @@ $(document).on('pagebeforeshow','#pageSetup', function(){
 	$("#selectTimeout,#selectInterval").selectmenu('refresh');
 	var enableDebugLog = Config.get(CONFIG_ENABLE_DEBUGLOG) || false;
 	$("#checkDebugLog").attr('checked', enableDebugLog).checkboxradio("refresh");
+	var debugLevel = parseInt(Config.get(CONFIG_DEBUG_LEVEL),10) || 1;
+  $("#selectDebugLevel option[value='"+debugLevel+"']").attr('selected', 'selected');
+  $("#selectDebugLevel").selectmenu('refresh');
 	var yellowThreshold = parseInt(Config.get(CONFIG_YELLOW_THRESHOLD),10) || 10;
   $("#editYellowThreshold").val(yellowThreshold);
   $("#editYellowThreshold").slider('refresh');;

@@ -2,7 +2,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "net.holubec.tczparking-debug"
-        version   = "0.9.3">
+        version   = "0.9.4">
     <name>TCZ Parking (DEBUG)</name>
 
     <description>
@@ -70,13 +70,18 @@
     <icon src="res/icon/windows-phone/icon-173.png" gap:platform="winphone"   gap:role="background" />
 
     <!--<gap:splash src="images/O2Parking448.png" width="448" height="448" /> -->
-    <gap:splash src="splash.png" width="480" height="800" /> <!-- 480x800 <gap:splash src="res/screen/android/screen-hdpi-portrait.png"  gap:platform="android" gap:density="hdpi" /> -->
+    <gap:splash src="splash.9.png" /> <!-- 480x800 <gap:splash src="res/screen/android/screen-hdpi-portrait.png"  gap:platform="android" gap:density="hdpi" /> -->
+    <gap:splash src="res/screen/android/screen-portrait-hdpi.9.png"  gap:platform="android" gap:density="ldpi" />
+    <gap:splash src="res/screen/android/screen-portrait-hdpi.9.png"  gap:platform="android" gap:density="mdpi" />
+    <gap:splash src="res/screen/android/screen-portrait-hdpi.9.png"  gap:platform="android" gap:density="hdpi" />
+    <gap:splash src="res/screen/android/screen-portrait-hdpi.9.png" gap:platform="android" gap:density="xhdpi" />
 
     <!--<gap:splash src="res/screen/android/screen-ldpi-portrait.png"  gap:platform="android" gap:density="ldpi" />
     <gap:splash src="res/screen/android/screen-ldpi-landscape.png"  gap:platform="android" gap:density="ldpi" />
     <gap:splash src="res/screen/android/screen-hdpi-portrait.png"  gap:platform="android" gap:density="hdpi" />
     <gap:splash src="res/screen/android/screen-hdpi-landscape.png"  gap:platform="android" gap:density="hdpi" />-->
 
+<!--
     <gap:splash src="res/screen/android/screen-ldpi-portrait.png"  gap:platform="android" gap:density="ldpi" width="200" height="320" />
     <gap:splash src="res/screen/android/screen-mdpi-portrait.png"  gap:platform="android" gap:density="mdpi" width="320" height="480" />
     <gap:splash src="res/screen/android/screen-hdpi-portrait.png"  gap:platform="android" gap:density="hdpi" width="480" height="800" />

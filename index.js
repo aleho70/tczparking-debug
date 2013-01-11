@@ -1,4 +1,4 @@
-var APP_VERSION = '0.9.4';
+var APP_VERSION = '0.9.5';
 
 var GA_PLUGIN_ID = 'UA-37001546-2'; // web type
            

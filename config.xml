@@ -2,7 +2,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "net.holubec.tczparking-debug"
-        version   = "0.9.4">
+        version   = "0.9.5">
     <name>TCZ Parking (DEBUG)</name>
 
     <description>
@@ -34,7 +34,7 @@
     <!-- Android -->
     <preference name="android-minSdkVersion" value="8" />
     <preference name="android-installLocation" value="auto" />
-    <preference name="splash-screen-duration" value="3000" />    <!-- navigator.splashscreen.hide(); -->
+    <preference name="splash-screen-duration" value="20000" />    <!-- navigator.splashscreen.hide(); -->
     <preference name="load-url-timeout" value="15000" />
     
 	 

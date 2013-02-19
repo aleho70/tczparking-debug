@@ -71,7 +71,10 @@
 
     <!--<gap:splash src="images/O2Parking448.png" width="448" height="448" /> -->
     <gap:splash src="splash.png" /> <!-- 480x800 <gap:splash src="res/screen/android/screen-hdpi-portrait.png"  gap:platform="android" gap:density="hdpi" /> -->
-    <gap:splash src="res/screen/android/screen-portrait-hdpi.png"  gap:platform="android" gap:density="hdpi" />
+    <gap:splash src="res/screen/android/drawable-ldpi/splash.9.png"  gap:platform="android" gap:density="ldpi" />
+    <gap:splash src="res/screen/android/drawable-mdpi/splash.9.png"  gap:platform="android" gap:density="mdpi" />
+    <gap:splash src="res/screen/android/drawable-hdpi/splash.9.png"  gap:platform="android" gap:density="hdpi" />
+    <gap:splash src="res/screen/android/drawable-xhdpi/splash.9.png"  gap:platform="android" gap:density="xhdpi" />
     <!--<gap:splash src="res/screen/android/splash-ldpi.9.png"  gap:platform="android" gap:density="ldpi" />
     <gap:splash src="res/screen/android/splash-mdpi.9.png"  gap:platform="android" gap:density="mdpi" />
     <gap:splash src="res/screen/android/splash-hdpi.9.png"  gap:platform="android" gap:density="hdpi" />
